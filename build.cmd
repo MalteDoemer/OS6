@@ -7,7 +7,7 @@ set "INCLUDE_DIR=%ROOT_DIR%\src\Headers\"
 set "BUILD_DIR=%ROOT_DIR%\obj\"
 set "SRC_DIR=%ROOT_DIR%\src\"
 set "LINKER_SCRIPT=%ROOT_DIR%\link.ld"
-set "CFLAGS= -ggdb -m64 -c -ffreestanding -fno-PIE -nostartfiles -nostdlib -std=c99 -Wall -I %INCLUDE_DIR%"
+set "CFLAGS= -ggdb -m64 -c -ffreestanding -fno-PIE -nostartfiles -nostdlib -std=c99 -I %INCLUDE_DIR%"
 set "ASMFLAGS= -f elf64 -g"
 
 set "ASM=nasm"
