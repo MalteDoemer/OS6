@@ -287,7 +287,7 @@ void vga_scroll()
             vga_buffer[i] = vga_buffer[i + VGA_WIDTH];
         for (int i = VGA_CHARS - VGA_WIDTH; i < VGA_CHARS; i++)
             vga_buffer[i] = (vga_attrib << 8) | ' ';
-        cursor_pos = (cursor_pos / VGA_WIDTH) * VGA_WIDTH;
+        cursor_pos = VGA_CHARS - VGA_WIDTH;
         vga_update_cursor();
     }
 }

@@ -5,7 +5,8 @@
 
 #include "types.h"
 #include "common.h"
-#include "tables.h"
+#include "gdt.h"
+#include "idt.h"
 #include "monitor.h"
 
 
