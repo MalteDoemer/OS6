@@ -7,7 +7,4 @@ void kernel_main()
     init_vga();
 
     vga_puts("Welcome to FettOS\n");
-    sti();
-    
-    __asm ("int $0");
 }

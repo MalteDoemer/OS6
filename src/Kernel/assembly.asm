@@ -1,4 +1,5 @@
 section .text
+
 [global memsetb]
 memsetb:
     mov rcx, rdx
@@ -67,6 +68,8 @@ memcpyq:
     mov rax, rdx
     ret
 
+
+
 [global load_idt]
 load_idt:
     lidt [rdi]
@@ -90,50 +93,109 @@ cascade_irq:
 interrupt_gate:
     iretq
 
+[global exception_00]
+exception_00:
+    mov al, 0
+    jmp exception_gate
 
-%macro EXCEPT 1
-[global except%1]
-except%1:
+[global exception_01]
+exception_01:
+    mov al, 1
+    jmp exception_gate
+
+[global exception_02]
+exception_02:
+    mov al, 2
+    jmp exception_gate
+
+[global exception_03]
+exception_03:
+    mov al, 3
+    jmp exception_gate
+
+[global exception_04]
+exception_04:
+    mov al, 4
+    jmp exception_gate
+
+[global exception_05]
+exception_05:
+    mov al, 5
+    jmp exception_gate
+
+[global exception_06]
+exception_06:
+    mov al, 6
+    jmp exception_gate
+
+[global exception_07]
+exception_07:
+    mov al, 7
+    jmp exception_gate
+
+[global exception_08]
+exception_08:
+    mov al, 8
+    jmp exception_gate
+
+[global exception_09]
+exception_09:
+    mov al, 9
+    jmp exception_gate
+
+[global exception_10]
+exception_10:
+    mov al, 10
+    jmp exception_gate
+
+[global exception_11]
+exception_11:
+    mov al, 11
+    jmp exception_gate
+
+[global exception_12]
+exception_12:
+    mov al, 12
+    jmp exception_gate
+
+[global exception_13]
+exception_13:
+    mov al, 13
+    jmp exception_gate
+
+[global exception_14]
+exception_14:
+    mov al, 14
+    jmp exception_gate
+
+[global exception_15]
+exception_15:
+    mov al, 15
+    jmp exception_gate
+
+[global exception_16]
+exception_16:
+    mov al, 16
+    jmp exception_gate
+
+[global exception_17]
+exception_17:
+    mov al, 17
+    jmp exception_gate
+
+[global exception_18]
+exception_18:
+    mov al, 18
+    jmp exception_gate
+
+[global exception_19]
+exception_19:
+    mov al, 19
+    jmp exception_gate
+
+[global exception_gate]
+exception_gate:
     cli
-    mov eax, %1
-    jmp except_stub
-%endmacro
-
-%macro ISR 1
-[global isr%1]
-isr%1:
-    cli
-    push %1
-    jmp isr_stub
-%endmacro
-
-[global except_stub]
-except_stub:
-.hang:
-    hlt
-    jmp .hang
-
-
-[global isr_stub]
-isr_stub:
-    sti 
-    add rsp, 4
-    iretq
-
-times 256 db 0          ; padding to force a 16 bit jump
-
-[global isr_table]
-isr_table:
-
-%assign i 0
-%rep 32
-EXCEPT i
-%assign i i+1
-%endrep
-
-
-%assign i 0
-%rep 224
-ISR i
-%assign i i+1
-%endrep
+    .hang:
+        hlt
+        jmp .hang
