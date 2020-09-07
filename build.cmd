@@ -66,8 +66,7 @@ goto:eof
 :objcopy
     %OBJCOPY% -j .loader -O binary "%LINKED_FILE%" "%LOADER%"
     %OBJCOPY% -R .loader -O binary "%LINKED_FILE%" "%KERNEL%"
-    copy "%LOADER%" + "%KERNEL%" "%RESULT_FILE%"
-    REM %OBJCOPY% -O binary "%LINKED_FILE%" "%RESULT_FILE%"
+    copy /B "%LOADER%" + "%KERNEL%" "%RESULT_FILE%"
     if errorlevel 1 call:aboard %OBJCOPY%
 goto:eof
 
