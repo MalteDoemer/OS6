@@ -68,16 +68,26 @@ memcpyq:
     mov rax, rdx
     ret
 
-
+IDT_INFO:
+    .limit:  dw 0
+    .base: dq 0
 
 [global load_idt]
 load_idt:
-    lidt [rdi]
+    mov word [IDT_INFO.limit], di
+    mov qword [IDT_INFO.base], rsi
+    lidt [IDT_INFO]
     ret
+
+GDT_INFO:
+    .limit: dw 0
+    .base: dq 0
 
 [global load_gdt]
 load_gdt:
-    lgdt [rdi]
+    mov word [GDT_INFO.limit], di
+    mov qword [GDT_INFO.base], rsi
+    lgdt [GDT_INFO]
     ret
 
 

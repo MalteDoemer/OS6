@@ -1,9 +1,6 @@
 #include "kernel.h"
 
-IDT_PTR idtptr;
 IDT_ENTRY idt[256];
-
-GDT_PTR gdtptr;
 GDT_ENTRY gdt[3];
 
 void init_idt()
@@ -57,10 +54,7 @@ void init_idt()
     // set up master->slave cascade irq
     set_idt_entry(0x22, cascade_irq, 0x08, 0x8E);
 
-    idtptr.limit = sizeof(idt) - 1;
-    idtptr.base = (qword)idt;
-
-    load_idt(&idtptr);
+    load_idt(sizeof(idt) - 1, (qword)idt);
 }
 
 void set_idt_entry(int index, void (*int_sub)(), word selector, byte attributes)
@@ -85,10 +79,7 @@ void init_gdt()
     set_gdt_entry(1, 0, 0, 0b10011000, 0b0010); // kernel code descriptor
     set_gdt_entry(2, 0, 0, 0b10000000, 0b0000); // kernel data descriptor
 
-    gdtptr.limit = sizeof(gdt) - 1;
-    gdtptr.base = (qword)gdt;
-
-    load_gdt(&gdtptr);
+    load_gdt(sizeof(gdt) - 1, (qword)gdt);
 }
 
 void set_gdt_entry(int index, dword base, dword limit, byte access, byte flags)

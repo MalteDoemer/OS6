@@ -17,12 +17,6 @@ typedef struct _IDT_ENTRY
     dword reserved2;
 } IDT_ENTRY;
 
-typedef struct _IDT_PTR
-{
-    word limit;
-    qword base;
-} IDT_PTR;
-
 typedef struct _GDT_ENTRY
 {
     word limit_low;
@@ -34,23 +28,15 @@ typedef struct _GDT_ENTRY
     byte base_high;
 } GDT_ENTRY;
 
-typedef struct _GDT_PTR
-{
-    word limit;
-    qword base;
-} GDT_PTR;
-
 extern IDT_ENTRY idt[256];
-extern IDT_PTR idtptr;
 
 extern GDT_ENTRY gdt[3];
-extern GDT_PTR gdtptr;
 
 void init_idt();
 void init_gdt();
 
-void load_idt(IDT_PTR *);
-void load_gdt(GDT_PTR *);
+void load_idt(word limit, qword base);
+void load_gdt(word limit, qword base);
 
 void set_idt_entry(int index, void (*int_sub)(), word selector, byte attributes);
 void set_gdt_entry(int index, dword base, dword limit, byte access, byte flags);
