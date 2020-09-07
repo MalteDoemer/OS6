@@ -37,8 +37,19 @@ static inline void sti()
     __asm ("sti");
 }
 
-void* memset(void* s, int c, size_t n);
-void* memcpy(void* dest, const void* src, size_t n);
+
+byte* memsetb(byte* s, byte val, size_t n);
+byte* memcpyb(byte* dest, const byte* src, size_t n);
+
+word* memsetw(word* s, word val, size_t n);
+word* memcpyw(word* dest, const word* src, size_t n);
+
+dword* memsetd(dword* s, dword val, size_t n);
+dword* memcpyd(dword* dest, const dword* src, size_t n);
+
+qword* memsetq(qword* s, qword val, size_t n);
+qword* memcpyq(qword* dest, const qword* src, size_t n);
+
 
 size_t strlen(char* str);
 bool strcmp(char* str1, char* str2);

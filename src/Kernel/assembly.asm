@@ -1,7 +1,7 @@
 section .text
 
-[global memset]
-memset:
+[global memsetb]
+memsetb:
     mov rcx, rdx
     mov rdx, rdi
     mov rax, rsi
@@ -9,13 +9,66 @@ memset:
     mov rax, rdx
     ret
 
-[global memcpy]
-memcpy:
+[global memcpyb]
+memcpyb:
     mov rcx, rdx
     mov rdx, rdi
     rep movsb
     mov rax, rdx
     ret
+
+[global memsetw]
+memsetw:
+    mov rcx, rdx
+    mov rdx, rdi
+    mov rax, rsi
+    rep stosw
+    mov rax, rdx
+    ret
+
+[global memcpyw]
+memcpyw:
+    mov rcx, rdx
+    mov rdx, rdi
+    rep movsw
+    mov rax, rdx
+    ret
+
+[global memsetd]
+memsetd:
+    mov rcx, rdx
+    mov rdx, rdi
+    mov rax, rsi
+    rep stosd
+    mov rax, rdx
+    ret
+
+[global memcpyd]
+memcpyd:
+    mov rcx, rdx
+    mov rdx, rdi
+    rep movsd
+    mov rax, rdx
+    ret
+
+[global memsetq]
+memsetq:
+    mov rcx, rdx
+    mov rdx, rdi
+    mov rax, rsi
+    rep stosq
+    mov rax, rdx
+    ret
+
+[global memcpyq]
+memcpyq:
+    mov rcx, rdx
+    mov rdx, rdi
+    rep movsq
+    mov rax, rdx
+    ret
+
+
 
 [global load_idt]
 load_idt:
