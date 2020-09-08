@@ -178,10 +178,10 @@ xor eax, eax
 mov ecx, 0x1000
 rep stosd                       ; clear out 0x1000 dwords for the table
 
-; PML4T -> 0x1000               ; Page map level 4 table
-; PDPT -> 0x2000                ; Page directory pointer table
-; PDT -> 0x3000                 ; Page directory table
-; PT -> 0x4000                  ; Page table
+                                ; PML4T -> 0x1000               ; Page map level 4 table
+                                ; PDPT -> 0x2000                ; Page directory pointer table
+                                ; PDT -> 0x3000                 ; Page directory table
+                                ; PT -> 0x4000                  ; Page table
 
 mov edi, 0x1000
 mov dword [edi], 0x2003         ; PML4T[0] = 0x2003 (PDPT)
@@ -274,20 +274,20 @@ GDT_64:
         db 0
 
     .Code: equ $ - GDT_64
-        dw 0            ; base
-        dw 0            ; limit
-        db 0            ; base
-        db 10011000b    ; access  Pr = 1, Privl = 0, S = 1, Ex = 1, Dc = 0, Rw = 0, Ac = 0
-        db 00100000b    ; flags  Gr = 0 Sz = 1  /  limit = 0
-        db 0            ; base
+        dw 0                    ; base
+        dw 0                    ; limit
+        db 0                    ; base
+        db 10011000b            ; access  Pr = 1, Privl = 0, S = 1, Ex = 1, Dc = 0, Rw = 0, Ac = 0
+        db 00100000b            ; flags  Gr = 0 Sz = 1  /  limit = 0
+        db 0                    ; base
 
     .Data: equ $ -GDT_64
-        dw 0            ; base
-        dw 0            ; limit 
-        db 0            ; base
-        db 10000000b    ; access Pr = 1, Privl = 0, S = 0, Ex = 0, Dc = 0, Rw = 0, Ac = 0
-        db 0            ; flags Gr = 0, Sz = 0, / limit = 0
-        db 0            ; base
+        dw 0                    ; base
+        dw 0                    ; limit
+        db 0                    ; base
+        db 10000000b            ; access Pr = 1, Privl = 0, S = 0, Ex = 0, Dc = 0, Rw = 0, Ac = 0
+        db 0                    ; flags Gr = 0, Sz = 0, / limit = 0
+        db 0                    ; base
 
     .Pointer:
         dw $ - GDT_64 - 1
