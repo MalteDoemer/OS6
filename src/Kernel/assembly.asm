@@ -89,3 +89,47 @@ load_gdt:
     mov qword [GDT_INFO.base], rsi
     lgdt [GDT_INFO]
     ret
+
+%macro EXCEPT 1
+[global except%1]
+except%1:
+    cli
+    mov eax, %1
+    jmp except_stub
+%endmacro
+
+%macro ISR 1
+[global isr%1]
+isr%1:
+    cli
+    push %1
+    jmp isr_stub
+%endmacro
+
+[global except_stub]
+except_stub:
+    hlt
+    jmp except_stub
+
+[global isr_stub]
+isr_stub:
+    sti
+    add rsp, 4
+    iretq
+
+times 256 db 0
+
+[global isr_table]
+isr_table:
+
+%assign i 0
+
+%rep 32
+EXCEPT i
+%assign i i+1
+%endrep
+
+%rep 224
+ISR i
+%assign i i+1
+%endrep
