@@ -6,6 +6,7 @@
 #include "types.h"
 #include "common.h"
 #include "tables.h"
+#include "isr.h"
 #include "monitor.h"
 
 

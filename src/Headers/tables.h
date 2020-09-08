@@ -30,7 +30,7 @@ typedef struct _GDT_ENTRY
 
 typedef struct _INT_SUB
 {
-    byte bytes[11];
+    byte bytes[14];
 } INT_SUB;
 
 extern IDT_ENTRY idt[256];
