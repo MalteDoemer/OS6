@@ -24,7 +24,6 @@ void isr_handler(qword int_num, ISR_STACK *stack)
     }
 }
 
-
 void isr_divide_by_zero(ISR_STACK *stack)
 {
     vga_attrib = 0x1F;
@@ -85,6 +84,12 @@ void isr_general_protection_fault(ISR_STACK *stack)
         hlt();
 }
 
+void cascade_irq()
+{
+    outb(0x20, 0x20); // EOI
+}
+
+
 void init_isr()
 {
     register_isr(0x00, isr_divide_by_zero);
@@ -93,4 +98,5 @@ void init_isr()
     register_isr(0x08, isr_double_fault);
     register_isr(0x0A, isr_invalid_tss);
     register_isr(0x0D, isr_general_protection_fault);
+    register_isr(0x22, cascade_irq);
 }
