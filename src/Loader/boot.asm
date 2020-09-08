@@ -178,10 +178,10 @@ xor eax, eax
 mov ecx, 0x1000
 rep stosd                       ; clear out 0x1000 dwords for the table
 
-                                ; PML4T -> 0x1000               ; Page map level 4 table
-                                ; PDPT -> 0x2000                ; Page directory pointer table
-                                ; PDT -> 0x3000                 ; Page directory table
-                                ; PT -> 0x4000                  ; Page table
+; PML4T -> 0x1000               ; Page map level 4 table
+; PDPT -> 0x2000                ; Page directory pointer table
+; PDT -> 0x3000                 ; Page directory table
+; PT -> 0x4000                  ; Page table
 
 mov edi, 0x1000
 mov dword [edi], 0x2003         ; PML4T[0] = 0x2003 (PDPT)
