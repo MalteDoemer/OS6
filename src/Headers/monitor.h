@@ -3,7 +3,7 @@
 
 #define VGA_WIDTH 80
 #define VGA_HEIGHT 25
-#define VGA_CHARS VGA_WIDTH *VGA_HEIGHT
+#define VGA_CHARS (VGA_WIDTH * VGA_HEIGHT)
 
 extern word cursor_pos;
 extern byte vga_attrib;
