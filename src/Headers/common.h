@@ -37,6 +37,10 @@ static inline void sti()
     __asm ("sti");
 }
 
+static inline void hlt()
+{
+    __asm ("hlt");
+}
 
 byte* memsetb(byte* s, byte val, size_t n);
 byte* memcpyb(byte* dest, const byte* src, size_t n);
