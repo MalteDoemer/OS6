@@ -21,11 +21,14 @@ void init_idt()
     outb(0x21, MASTER_IRQS); // Mask all unused master irq's
     outb(0xA1, SLAVE_IRQS);  // Mask all unused slave irq's
 
+    // Fill out all 32 exceptions
     for (int i = 0; i < 32; i++)
-        set_idt_entry(i, isr_table + i, 0x08, 0x8F);
+        set_idt_entry(i, except_table + i, 0x08, 0x8F);
 
     for (int i = 32; i < 256; i++)
-        set_idt_entry(i, isr_table + i, 0x08, 0x8E);
+        set_idt_entry(i, default_isr, 0x08, 0x8E);
+
+    set_idt_entry(0x22, cascade_irq, 0x08, 0x8E);
 
     load_idt(sizeof(idt) - 1, (qword)idt);
 }
@@ -64,4 +67,11 @@ void set_gdt_entry(int index, dword base, dword limit, byte access, byte flags)
     gdt[index].limit_high = (limit >> 16) & 0x0F;
     gdt[index].flags = flags;
     gdt[index].access = access;
+}
+
+void except_handler(word cause)
+{
+    vga_attrib = 0x1F;
+    vga_clear();
+    vga_puts("Exception occured");
 }

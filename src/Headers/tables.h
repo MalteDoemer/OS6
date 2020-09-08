@@ -28,14 +28,14 @@ typedef struct _GDT_ENTRY
     byte base_high;
 } GDT_ENTRY;
 
-typedef struct _INT_SUB
+typedef struct _EXCEPT_SUB
 {
     byte bytes[11];
-} INT_SUB;
+} EXCEPT_SUB;
 
 extern IDT_ENTRY idt[256];
 extern GDT_ENTRY gdt[3];
-extern INT_SUB isr_table[256];
+extern EXCEPT_SUB except_table[32];
 
 void init_idt();
 void init_gdt();
@@ -45,5 +45,9 @@ void load_gdt(word limit, qword base);
 
 void set_idt_entry(int index, void *int_sub, word selector, byte attributes);
 void set_gdt_entry(int index, dword base, dword limit, byte access, byte flags);
+
+void except_handler(word cause);
+void default_isr();
+void cascade_irq();
 
 #endif // #ifndef TABLES_H
