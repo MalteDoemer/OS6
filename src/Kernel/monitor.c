@@ -2,7 +2,7 @@
 
 word cursor_pos;
 byte vga_attrib;
-word *vga_buffer;
+volatile word *vga_buffer;
 
 byte ansi_to_screen[256] = {
     0,
@@ -267,7 +267,7 @@ void init_vga()
 {
     cursor_pos = 0;
     vga_attrib = 0x1F;
-    vga_buffer = (word *)0xB8000;
+    vga_buffer = (volatile word *)0xB8000;
     vga_clear();
 }
 
@@ -336,4 +336,15 @@ void vga_clear()
 void vga_copy(word *buffer, size_t length)
 {
     memcpyw(vga_buffer, buffer, length);
+}
+
+void vga_puth(dword num)
+{
+    static const byte *pattern = "0123456789ABCDEF";
+
+    vga_putc('0');
+    vga_putc('x');
+
+    for (int i = 28; i > -1; i -= 4)
+        vga_putc(pattern[(num >> i) & 0xF]);
 }
