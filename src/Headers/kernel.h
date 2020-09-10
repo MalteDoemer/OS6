@@ -5,8 +5,10 @@
 
 #include "types.h"
 #include "common.h"
+#include "paging.h"
 #include "tables.h"
 #include "isr.h"
+#include "kheap.h"
 #include "monitor.h"
 
 
