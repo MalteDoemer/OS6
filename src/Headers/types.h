@@ -1,6 +1,8 @@
 #ifndef TYPES_H
 #define TYPES_H
 
+#define NULL 0
+
 typedef unsigned char byte;
 typedef unsigned short word;
 typedef unsigned int dword;

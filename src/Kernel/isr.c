@@ -1,13 +1,13 @@
 #include "kernel.h"
 
-ISR isr_handlers[256];
+isr_t isr_handlers[256];
 
-void register_isr(byte index, ISR isr)
+void register_isr(byte index, isr_t isr)
 {
     isr_handlers[index] = isr;
 }
 
-void isr_handler(qword int_num, ISR_STACK *stack)
+void isr_handler(qword int_num, isr_stack_t *stack)
 {
     if (isr_handlers[int_num])
         isr_handlers[int_num](stack);
@@ -24,7 +24,7 @@ void isr_handler(qword int_num, ISR_STACK *stack)
     }
 }
 
-void isr_divide_by_zero(ISR_STACK *stack)
+void isr_divide_by_zero(isr_stack_t *stack)
 {
     vga_attrib = 0x1F;
     vga_clear();
@@ -34,7 +34,7 @@ void isr_divide_by_zero(ISR_STACK *stack)
         hlt();
 }
 
-void isr_overflow(ISR_STACK *stack)
+void isr_overflow(isr_stack_t *stack)
 {
     vga_attrib = 0x1F;
     vga_clear();
@@ -44,7 +44,7 @@ void isr_overflow(ISR_STACK *stack)
         hlt();
 }
 
-void isr_invalid_opcode(ISR_STACK *stack)
+void isr_invalid_opcode(isr_stack_t *stack)
 {
     vga_attrib = 0x1F;
     vga_clear();
@@ -54,7 +54,7 @@ void isr_invalid_opcode(ISR_STACK *stack)
         hlt();
 }
 
-void isr_double_fault(ISR_STACK *stack)
+void isr_double_fault(isr_stack_t *stack)
 {
     vga_attrib = 0x1F;
     vga_clear();
@@ -64,7 +64,7 @@ void isr_double_fault(ISR_STACK *stack)
         hlt();
 }
 
-void isr_invalid_tss(ISR_STACK *stack)
+void isr_invalid_tss(isr_stack_t *stack)
 {
     vga_attrib = 0x1F;
     vga_clear();
@@ -74,7 +74,7 @@ void isr_invalid_tss(ISR_STACK *stack)
         hlt();
 }
 
-void isr_general_protection_fault(ISR_STACK *stack)
+void isr_general_protection_fault(isr_stack_t *stack)
 {
     vga_attrib = 0x1F;
     vga_clear();
@@ -88,7 +88,6 @@ void cascade_irq()
 {
     outb(0x20, 0x20); // EOI
 }
-
 
 void init_isr()
 {

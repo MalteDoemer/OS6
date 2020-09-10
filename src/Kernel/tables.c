@@ -1,7 +1,7 @@
 #include "kernel.h"
 
-IDT_ENTRY idt[256];
-GDT_ENTRY gdt[3];
+idt_entry_t idt[256];
+gtd_entry_t gdt[3];
 
 void init_idt()
 {
