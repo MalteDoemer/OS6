@@ -14,7 +14,7 @@ typedef struct idt_entry_t {
     word middle_bits;
     dword high_bits;
     dword reserved2;
-} idt_entry_t;
+}__attribute__((__packed__)) idt_entry_t;
 
 typedef struct gtd_entry_t {
     word limit_low;
@@ -24,11 +24,11 @@ typedef struct gtd_entry_t {
     byte limit_high : 4;
     byte flags : 4;
     byte base_high;
-} gtd_entry_t;
+} __attribute__((__packed__)) gtd_entry_t;
 
 typedef struct int_sub_t {
     byte bytes[14];
-} int_sub_t;
+} __attribute__((__packed__)) int_sub_t;
 
 extern idt_entry_t idt[256];
 extern gtd_entry_t gdt[3];

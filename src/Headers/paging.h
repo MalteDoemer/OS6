@@ -20,11 +20,11 @@ typedef struct page_t {
     dword : 27;
     byte pk : 4;
     byte xd : 1;
-} page_t;
+} __attribute__((__packed__)) page_t;
 
 typedef struct page_table_t {
     page_t pages[512];
-} page_table_t;
+} __attribute__((__packed__)) page_table_t;
 
 typedef struct page_dir_entry_t {
     byte p : 1;
@@ -37,11 +37,11 @@ typedef struct page_dir_entry_t {
     dword table : 20;
     dword : 31;
     byte xd : 1;
-} page_dir_entry_t;
+} __attribute__((__packed__)) page_dir_entry_t;
 
 typedef struct page_dir_t {
     page_dir_entry_t entries[512];
-} page_dir_t;
+} __attribute__((__packed__)) page_dir_t;
 
 typedef struct pdpte_t {
     byte p : 1;
@@ -54,23 +54,24 @@ typedef struct pdpte_t {
     dword dir : 20;
     dword : 31;
     byte xd : 1;
-} pdpte_t;
+} __attribute__((__packed__)) pdpte_t;
 
 typedef struct pdpt_t {
     pdpte_t directories[512];
-} pdpt_t;
+} __attribute__((__packed__)) pdpt_t;
 
 void init_paging();
 
 page_dir_t* mk_page_dir();
-page_table_t* mk_page_table();
 
-page_dir_entry_t get_entry(page_table_t* table);
+void set_activ_dir(page_dir_t* dir);
+
+void page_map(page_dir_t* dir, qword phys, qword virt);
+void page_map_user(page_dir_t* dir, qword phys, qword virt);
 
 void* alloc_page_struct();
 void free_page_struct(void* ptr);
 
-void switch_page_dir(page_dir_t* page_dir);
-void flush_pages();
+static inline void flush_pages() { __asm("movq %cr3, %rax\nmovq %rax, %cr3"); }
 
 #endif // #ifndef PAGING_H

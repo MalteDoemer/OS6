@@ -8,8 +8,11 @@ void kernel_main()
     init_kheap();
     init_vga();
 
-    vga_puts("Welcome to FettOS\n");
 
+    init_paging();
+
+    vga_puts("Welcome to FettOS\n");
+    
     sti();
     for (;;)
         hlt();
