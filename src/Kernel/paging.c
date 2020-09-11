@@ -17,9 +17,20 @@ void init_paging()
     pdpt = (pdpt_t*)0x2000;
     kernel_page_table1 = (page_table_t*)0x4000;
     kernel_page_table2 = (page_table_t*)0x5000;
+
+    page_dir_t* test = make_page_dir();
+    page_map(test, 0x400000, 0x400000);
+    page_map(test, 0x600000, 0x600000);
+    set_activ_dir(test);
+
+    byte* b = ((byte*)0x600000);
+    *b = 36;
+
+    set_activ_dir((page_dir_t*)0x3000);
+    free_page_dir(test);
 }
 
-page_dir_t* mk_page_dir()
+page_dir_t* make_page_dir()
 {
     page_dir_t* dir = alloc_page_struct();
     memsetb((byte*)dir, 0, sizeof(page_dir_t));
@@ -33,6 +44,14 @@ page_dir_t* mk_page_dir()
     dir->entries[1].table = (qword)kernel_page_table2 >> 12;
 
     return dir;
+}
+
+void free_page_dir(page_dir_t* dir)
+{
+    for (int i = 2; i < 512; i++)
+        if (dir->entries[i].p)
+            free_page_struct((void*)(dir->entries[i].table << 12));
+    free_page_struct(dir);
 }
 
 void page_map(page_dir_t* dir, qword phys, qword virt)
@@ -100,6 +119,6 @@ void* alloc_page_struct()
 
 void free_page_struct(void* ptr)
 {
-    int index = ((qword)ptr >> 12) + 1;
+    int index = ((qword)ptr >> 12) - 1;
     page_struct_table[index] = false;
 }

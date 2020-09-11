@@ -62,7 +62,8 @@ typedef struct pdpt_t {
 
 void init_paging();
 
-page_dir_t* mk_page_dir();
+page_dir_t* make_page_dir();
+void free_page_dir(page_dir_t* dir);
 
 void set_activ_dir(page_dir_t* dir);
 
