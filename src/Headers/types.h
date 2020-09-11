@@ -9,10 +9,8 @@ typedef unsigned int dword;
 typedef unsigned long long qword;
 typedef unsigned long long size_t;
 
-typedef enum _bool
-{
-    false = 0,
-    true = 1
-} bool;
+enum bool { false = 0, true = 1 } __attribute__((__packed__));
+
+typedef enum bool bool;
 
 #endif // #ifndef TYPES_H

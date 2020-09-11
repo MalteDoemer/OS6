@@ -2,85 +2,81 @@
 
 isr_t isr_handlers[256];
 
-void register_isr(byte index, isr_t isr)
-{
-    isr_handlers[index] = isr;
-}
+void register_isr(byte index, isr_t isr) { isr_handlers[index] = isr; }
 
-void isr_handler(qword int_num, isr_stack_t *stack)
+void isr_handler(qword int_num, isr_stack_t* stack)
 {
     if (isr_handlers[int_num])
         isr_handlers[int_num](stack);
-    else
-    {
+    else {
         vga_attrib = 0x1F;
         vga_clear();
         vga_puts("Fatal: Unhandled Interrupt: ");
         vga_puth(int_num);
         vga_putc('\n');
 
-        while (1)
+        for (;;)
             hlt();
     }
 }
 
-void isr_divide_by_zero(isr_stack_t *stack)
+void isr_divide_by_zero(isr_stack_t* stack)
 {
     vga_attrib = 0x1F;
     vga_clear();
     vga_puts("Fatal: Divide-by-zero Error\n");
 
-    while (1)
+    for (;;)
         hlt();
 }
 
-void isr_overflow(isr_stack_t *stack)
+void isr_overflow(isr_stack_t* stack)
 {
     vga_attrib = 0x1F;
     vga_clear();
     vga_puts("Fatal: Overflow\n");
 
-    while (1)
+    for (;;)
         hlt();
 }
 
-void isr_invalid_opcode(isr_stack_t *stack)
+void isr_invalid_opcode(isr_stack_t* stack)
 {
     vga_attrib = 0x1F;
     vga_clear();
     vga_puts("Fatal: Invalid Opcode\n");
 
-    while (1)
+    for (;;)
         hlt();
 }
 
-void isr_double_fault(isr_stack_t *stack)
+void isr_double_fault(isr_stack_t* stack)
 {
     vga_attrib = 0x1F;
     vga_clear();
     vga_puts("Fatal: Double Fault\n");
 
-    while (1)
+    for (;;)
         hlt();
 }
 
-void isr_invalid_tss(isr_stack_t *stack)
+void isr_invalid_tss(isr_stack_t* stack)
 {
     vga_attrib = 0x1F;
     vga_clear();
     vga_puts("Fatal: Invalid TSS\n");
 
-    while (1)
+    for (;;)
         hlt();
 }
 
-void isr_general_protection_fault(isr_stack_t *stack)
+void isr_general_protection_fault(isr_stack_t* stack)
 {
     vga_attrib = 0x1F;
     vga_clear();
     vga_puts("Fatal: Gerneral Protection Fault\n");
 
-    while (1)
+    for (;;)
         hlt();
 }
 

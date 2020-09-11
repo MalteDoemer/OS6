@@ -298,9 +298,5 @@ GDT_64:
 long_mode:
     mov rsp, 0x1000
     call kernel_main
-    .hang:
-        hlt
-        jmp .hang
-
 
 times 512-($-$$-512) db 0

@@ -6,8 +6,7 @@
 #define SLAVE_IRQS 0b11111111
 #define MASTER_IRQS 0b11111011
 
-typedef struct idt_entry_t
-{
+typedef struct idt_entry_t {
     word low_bits;
     word selector;
     byte reserved1;
@@ -17,8 +16,7 @@ typedef struct idt_entry_t
     dword reserved2;
 } idt_entry_t;
 
-typedef struct gtd_entry_t
-{
+typedef struct gtd_entry_t {
     word limit_low;
     word base_low;
     byte base_middle;
@@ -28,11 +26,9 @@ typedef struct gtd_entry_t
     byte base_high;
 } gtd_entry_t;
 
-typedef struct int_sub_t
-{
+typedef struct int_sub_t {
     byte bytes[14];
 } int_sub_t;
-
 
 extern idt_entry_t idt[256];
 extern gtd_entry_t gdt[3];
@@ -44,7 +40,7 @@ void init_gdt();
 void load_idt(word limit, qword base);
 void load_gdt(word limit, qword base);
 
-void set_idt_entry(int index, void *int_sub, word selector, byte attributes);
+void set_idt_entry(int index, void* int_sub, word selector, byte attributes);
 void set_gdt_entry(int index, dword base, dword limit, byte access, byte flags);
 
 #endif // #ifndef TABLES_H

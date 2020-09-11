@@ -19,7 +19,7 @@ void init_idt()
     outb(0xA1, 0x01); // 8086 mode
 
     outb(0x21, MASTER_IRQS); // Mask all unused master irq's
-    outb(0xA1, SLAVE_IRQS);  // Mask all unused slave irq's
+    outb(0xA1, SLAVE_IRQS); // Mask all unused slave irq's
 
     for (int i = 0; i < 32; i++)
         set_idt_entry(i, isr_table + i, 0x08, 0x8F);
@@ -30,7 +30,7 @@ void init_idt()
     load_idt(sizeof(idt) - 1, (qword)idt);
 }
 
-void set_idt_entry(int index, void *int_sub, word selector, byte attributes)
+void set_idt_entry(int index, void* int_sub, word selector, byte attributes)
 {
     qword addr = (qword)int_sub;
 
@@ -48,7 +48,7 @@ void set_idt_entry(int index, void *int_sub, word selector, byte attributes)
 
 void init_gdt()
 {
-    set_gdt_entry(0, 0, 0, 0, 0);               // null descriptor
+    set_gdt_entry(0, 0, 0, 0, 0); // null descriptor
     set_gdt_entry(1, 0, 0, 0b10011000, 0b0010); // kernel code descriptor
     set_gdt_entry(2, 0, 0, 0b10000000, 0b0000); // kernel data descriptor
 

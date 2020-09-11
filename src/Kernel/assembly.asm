@@ -90,7 +90,6 @@ load_gdt:                          ; function to load the gdt
     lgdt [GDT_INFO]                ; load the gdt
     ret                            ; return
 
-
 %macro ISR_ERR 1                   ; macro for an interrupt with errorcode
 [global isr%1]                     ; the code generated should be 14 bytes in size
 isr%1:
@@ -115,24 +114,40 @@ isr%1:
 [extern isr_handler]
 [global isr_stub]
 isr_stub:                          ; a common isr handler to set up the stack
-    push rcx                       ; push all volatile registers
+    push rbx                       ; push all registers, rax is already pushed
+    push rcx
     push rdx
     push rsi
     push rdi
+    push rbp
     push r8
     push r9
+    push r10
+    push r11
+    push r12
+    push r13
+    push r14
+    push r15
 
     mov rdi, rax                   ; initialize arg1
     mov rsi, rsp                   ; initialize arg2
     call isr_handler               ; call the c function
 
-    pop r9                         ; pop the ragisters back
+    pop r15                        ; pop the ragisters back
+    pop r14
+    pop r13
+    pop r12
+    pop r11
+    pop r10
+    pop r9
     pop r8
+    pop rbp
     pop rdi
     pop rsi
     pop rdx
     pop rcx
-    pop rax                        ; rax was pushed in the individual isr's
+    pop rbx
+    pop rax
     add rsp, 8                     ; pop the error code or zero from the stack
     sti                            ; restore interrupts
     iretq                          ; return from interrupt

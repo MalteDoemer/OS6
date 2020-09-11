@@ -3,14 +3,13 @@
 
 #define LF_LINE_END
 
-#include "types.h"
 #include "common.h"
-#include "paging.h"
-#include "tables.h"
 #include "isr.h"
 #include "kheap.h"
 #include "monitor.h"
-
+#include "paging.h"
+#include "tables.h"
+#include "types.h"
 
 void kernel_main();
 
