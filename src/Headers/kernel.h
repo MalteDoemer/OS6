@@ -9,7 +9,9 @@
 #include "idt.h"
 #include "paging.h"
 #include "isr.h"
+#include "tables.h"
 #include "monitor.h"
+#include "keyboard.h"
 
 /* The entrypoint of the kernel */
 void kernel_main();

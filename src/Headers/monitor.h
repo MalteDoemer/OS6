@@ -7,8 +7,7 @@
 
 extern word cursor_pos;
 extern byte vga_attrib;
-extern volatile word* vga_buffer;
-extern byte ansi_to_screen[256];
+extern word* vga_buffer;
 
 /* Initialize vga */
 void init_vga();

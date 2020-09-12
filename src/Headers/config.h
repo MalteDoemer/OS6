@@ -1,12 +1,12 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
-#define LF_LINE_END
+#define KEYMAP swiss_keymap
 
 #define KERNEL_STACK 0x1000
 
 #define SLAVE_IRQS 0b11111111
-#define MASTER_IRQS 0b11111011
+#define MASTER_IRQS 0b11111001
 
 #define KERNEL_CODE (0x08 | 0b000)
 #define KERNEL_DATA (0x10 | 0b000)

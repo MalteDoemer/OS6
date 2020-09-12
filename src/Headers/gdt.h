@@ -1,5 +1,5 @@
-#ifndef TABLES_H
-#define TABLES_H
+#ifndef GDT_H
+#define GDT_H
 
 #include "kernel.h"
 
@@ -75,4 +75,4 @@ void flush_tss();
 /* Sets rsp0 in the tss data structure */
 void set_kernel_stack(qword rsp);
 
-#endif // #ifndef TABLES_H
+#endif // #ifndef GDT_H
