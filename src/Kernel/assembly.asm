@@ -162,8 +162,8 @@ isr_stub:                          ; a common isr handler to set up the stack
 
 times 256 db 0                     ; this is necessery to force a 16-bit offset in all isr's
 
-[global isr_table]
-isr_table:                         ; the start of all the isr's
+[global int_table]
+int_table:                         ; the start of all the isr's
 
 ISR 0                              ; divide by zero
 ISR 1                              ; debug
