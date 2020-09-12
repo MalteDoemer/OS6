@@ -1,7 +1,8 @@
 #include "kernel.h"
 
 idt_entry_t idt[256];
-gtd_entry_t gdt[3];
+gtd_entry_t gdt[7];
+tss_t tss;
 
 void init_idt()
 {
@@ -49,10 +50,25 @@ void set_idt_entry(int index, void* int_sub, word selector, byte attributes)
 void init_gdt()
 {
     set_gdt_entry(0, 0, 0, 0, 0); // null descriptor
-    set_gdt_entry(1, 0, 0, 0b10011000, 0b0010); // kernel code descriptor
-    set_gdt_entry(2, 0, 0, 0b10000000, 0b0000); // kernel data descriptor
-
+    set_gdt_entry(1, 0, 0, 0b10011010, 0b0010); // kernel code descriptor
+    set_gdt_entry(2, 0, 0, 0b10000010, 0b0000); // kernel data descriptor
+    set_gdt_entry(3, 0, 0, 0b11111010, 0b0010); // user code descriptor
+    set_gdt_entry(4, 0, 0, 0b11100010, 0b0000); // user data descriptor
+    write_tss(5, KERNEL_STACK);
     load_gdt(sizeof(gdt) - 1, (qword)gdt);
+    flush_tss();
+}
+
+void write_tss(int index, qword rsp)
+{
+    dword base = (qword)&tss;
+    dword limit = sizeof(tss_t);
+    // set_gdt_entry(index, base, limit, 0b11101001, 0b0100);
+
+    
+
+    memsetb((byte*)&tss, 0, sizeof(tss_t));
+    tss.rsp0 = rsp;
 }
 
 void set_gdt_entry(int index, dword base, dword limit, byte access, byte flags)
@@ -65,3 +81,5 @@ void set_gdt_entry(int index, dword base, dword limit, byte access, byte flags)
     gdt[index].flags = flags;
     gdt[index].access = access;
 }
+
+void set_kernel_stack(qword rsp) { tss.rsp0 = rsp; }

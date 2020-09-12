@@ -1,8 +1,7 @@
 #ifndef KERNEL_H
 #define KERNEL_H
 
-#define LF_LINE_END
-
+#include "config.h"
 #include "types.h"
 #include "common.h"
 #include "kheap.h"

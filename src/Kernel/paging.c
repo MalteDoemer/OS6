@@ -71,12 +71,12 @@ void set_activ_dir(page_dir_t* dir)
 
 void* alloc_page_struct()
 {
-    for (int i = 0; i < 158; i++) {
+    for (qword i = 0; i < 158; i++) {
         if (!page_struct_table[i]) {
             page_struct_table[i] = true;
-            byte* addr = (byte*)(0x1000 + i * 0x1000);
+            void* addr = (void*)(0x1000 + i * 0x1000);
             memsetb(addr, 0, 0x1000);
-            return (void*)addr;
+            return addr;
         }
     }
 

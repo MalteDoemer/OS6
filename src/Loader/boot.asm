@@ -1,5 +1,7 @@
 BITS 16
 
+%include "config.inc"
+
 extern kernel_start             ; memory address of kernel provided by linker script
 extern kernel_end               ; memory address of kernel end
 extern kernel_main              ; entry of kernel
@@ -297,7 +299,7 @@ GDT_64:
 [BITS 64]
 
 long_mode:
-    mov rsp, 0x1000
+    mov rsp, KERNEL_STACK
     call kernel_main
 
 times 512-($-$$-512) db 0

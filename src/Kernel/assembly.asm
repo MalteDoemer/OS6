@@ -1,5 +1,7 @@
 section .text
 
+%include "config.inc"
+
 [global memsetb]
 memsetb:                           ; function to set bytes
     mov rcx, rdx                   ; init loop counter with arg3
@@ -88,6 +90,12 @@ load_gdt:                          ; function to load the gdt
     mov word [GDT_INFO.limit], di  ; store the size of the gdt
     mov qword [GDT_INFO.base], rsi ; store the address of the gdt
     lgdt [GDT_INFO]                ; load the gdt
+    ret                            ; return
+
+[global flush_tss]
+flush_tss:                         ; function to reload the tss
+    mov ax, TSS_ENTRY              ; mov the tss descriptor into ax
+    ltr ax                         ; load the tss
     ret                            ; return
 
 %macro ISR_ERR 1                   ; macro for an interrupt with errorcode
