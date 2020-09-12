@@ -19,12 +19,22 @@ typedef struct heap_t {
     size_t size;
 } heap_t;
 
+/* Create a new heap */
 heap_t make_heap(void* start, size_t size);
+
+/* Allocate on a heap */
 void* heap_alloc(heap_t heap, size_t size);
+
+/* Free memory of a heap */
 void heap_free(heap_t heap, void* ptr);
 
+/* Initialize the kernel heap */
 void init_kheap();
+
+/* Allocate on the kernel heap */
 void* kmalloc(size_t size);
+
+/* Free memory from the kernel heap */
 void kfree(void* ptr);
 
 #endif // #ifndef KHEAP_H

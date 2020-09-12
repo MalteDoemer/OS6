@@ -11,6 +11,7 @@
 #include "isr.h"
 #include "monitor.h"
 
+/* The entrypoint of the kernel */
 void kernel_main();
 
 #endif // #ifndef KERNEL_H

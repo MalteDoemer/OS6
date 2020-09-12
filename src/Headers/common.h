@@ -3,10 +3,13 @@
 
 #include "kernel.h"
 
+/* Write a byte to a port */
 static inline void outb(word port, byte val) { __asm volatile("outb %0, %1" : : "a"(val), "Nd"(port)); }
 
+/* Write a word to a port */
 static inline void outw(word port, word val) { __asm volatile("outw %0, %1" : : "a"(val), "Nd"(port)); }
 
+/* Read a byte from a port */
 static inline byte inb(word port)
 {
     byte ret;
@@ -14,6 +17,7 @@ static inline byte inb(word port)
     return ret;
 }
 
+/* Read a word from a port */
 static inline word inw(word port)
 {
     word ret;
@@ -21,25 +25,43 @@ static inline word inw(word port)
     return ret;
 }
 
+/* Clears the interrupt flag */
 static inline void cli() { __asm("cli"); }
 
+/* Sets the interrupt flag */
 static inline void sti() { __asm("sti"); }
 
+/* Halts the cpu */
 static inline void hlt() { __asm("hlt"); }
 
+/* Sets all bytes in a buffer */
 byte* memsetb(byte* s, byte val, size_t n);
+
+/* Copy bytes to buffer */
 byte* memcpyb(byte* dest, const byte* src, size_t n);
 
+/* Sets all words in a buffer */
 word* memsetw(word* s, word val, size_t n);
+
+/* Copy words to buffer */
 word* memcpyw(word* dest, const word* src, size_t n);
 
+/* Sets all dwords in a buffer */
 dword* memsetd(dword* s, dword val, size_t n);
+
+/* Copy dwords to buffer */
 dword* memcpyd(dword* dest, const dword* src, size_t n);
 
+/* Sets all qwords in a buffer */
 qword* memsetq(qword* s, qword val, size_t n);
+
+/* Copy qwords to buffer */
 qword* memcpyq(qword* dest, const qword* src, size_t n);
 
+/* Get the length of a null-terminated string */
 size_t strlen(char* str);
+
+/* Compare to strings for equality */
 bool strcmp(char* str1, char* str2);
 
 #endif // #ifndef COMMON_H

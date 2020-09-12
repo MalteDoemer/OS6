@@ -10,13 +10,28 @@ extern byte vga_attrib;
 extern volatile word* vga_buffer;
 extern byte ansi_to_screen[256];
 
+/* Initialize vga */
 void init_vga();
+
+/* Clear the screen with the current color */
 void vga_clear();
+
+/* Updates the Harware cursor */
 void vga_update_cursor();
+
+/* Scrolls if the cursor is at the end */
 void vga_scroll();
+
+/* Write a character at cursor position */
 void vga_putc(byte c);
+
+/* Write a string at cursor position */
 void vga_puts(byte* str);
+
+/* Write a 32-bit unsgined integer in hex format at cursor position */
 void vga_puth(dword num);
+
+/* Copy a buffer to video memory */
 void vga_copy(word* buffer, size_t length);
 
 #endif // #ifndef MONITOR_H
