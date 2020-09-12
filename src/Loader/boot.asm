@@ -202,17 +202,18 @@ mov ecx, 2 * 512                ; fill two PT's each 512 bytes
     loop .set_entry
 
 mov eax, cr4
-or eax, 1 << 5
+or eax, 1 << 5                  ; PAE Physical Address Extension
 mov cr4, eax
 
 mov ecx, 0xC0000080
 rdmsr
-or eax, 1 << 8
+or eax, 1 << 8                  ; LME Long mode enable
+or eax, 1 << 11                 ; NXE No-Execute enable
 wrmsr
 
 mov eax, cr0
-or eax, 1 << 31
-or eax, 1 << 0
+or eax, 1 << 31                 ; PG paging
+or eax, 1 << 0                  ; PE Protected Mode Enable
 mov cr0, eax
 
 lgdt [GDT_64.Pointer]

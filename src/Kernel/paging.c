@@ -3,91 +3,57 @@
 bool page_struct_table[158];
 
 pdpt_t* pdpt;
-page_table_t* kernel_page_table1;
-page_table_t* kernel_page_table2;
+page_dir_t* kernel_dir;
 
 void init_paging()
 {
-    page_struct_table[0] = true;
-    page_struct_table[1] = true;
-    page_struct_table[2] = true;
-    page_struct_table[3] = true;
-    page_struct_table[4] = true;
+    /* mark page structs made by boot.asm as allocated */
+    page_struct_table[0] = true; // pml4t at 0x1000
+    page_struct_table[1] = true; // pdpt  at 0x2000
+    page_struct_table[2] = true; // pd    at 0x3000
+    page_struct_table[3] = true; // pt    at 0x4000
+    page_struct_table[4] = true; // pt    at 0x5000
 
+    /* map two 2 MBytes pages */
     pdpt = (pdpt_t*)0x2000;
-    kernel_page_table1 = (page_table_t*)0x4000;
-    kernel_page_table2 = (page_table_t*)0x5000;
+    kernel_dir = make_page_dir();
+    set_activ_dir(kernel_dir);
 
-    page_dir_t* test = make_page_dir();
-    page_map(test, 0x400000, 0x400000);
-    page_map(test, 0x600000, 0x600000);
-    set_activ_dir(test);
-
-    byte* b = ((byte*)0x600000);
-    *b = 36;
-
-    set_activ_dir((page_dir_t*)0x3000);
-    free_page_dir(test);
+    /* deallocate the old ones */
+    page_struct_table[2] = false; // pd    at 0x3000
+    page_struct_table[3] = false; // pt    at 0x4000
+    page_struct_table[4] = false; // pt    at 0x5000
 }
 
 page_dir_t* make_page_dir()
 {
     page_dir_t* dir = alloc_page_struct();
-    memsetb((byte*)dir, 0, sizeof(page_dir_t));
 
-    dir->entries[0].p = 1;
-    dir->entries[0].rw = 1;
-    dir->entries[0].table = (qword)kernel_page_table1 >> 12;
+    /* kernel page 1 from 0 -> 0x200000 */
+    dir->pages[0].p = 1;
+    dir->pages[0].rw = 1;
+    dir->pages[0].ps = 1;
+    dir->pages[0].frame = 0x000000 >> 21;
 
-    dir->entries[1].p = 1;
-    dir->entries[1].rw = 1;
-    dir->entries[1].table = (qword)kernel_page_table2 >> 12;
+    /* kernel page 2 from 0x200000 -> 0x400000 */
+    dir->pages[1].p = 1;
+    dir->pages[1].rw = 1;
+    dir->pages[1].ps = 1;
+    dir->pages[1].frame = 0x200000 >> 21;
 
     return dir;
 }
 
-void free_page_dir(page_dir_t* dir)
+void map_page(page_dir_t* dir, qword virt, qword phys, bool rw, bool us, bool xd)
 {
-    for (int i = 2; i < 512; i++)
-        if (dir->entries[i].p)
-            free_page_struct((void*)(dir->entries[i].table << 12));
-    free_page_struct(dir);
-}
+    word id = virt >> 21;
+    dir->pages[id].p = 1;
+    dir->pages[id].ps = 1;
+    dir->pages[id].frame = phys >> 21;
 
-void page_map(page_dir_t* dir, qword phys, qword virt)
-{
-    short id = virt >> 21;
-    page_table_t* table = alloc_page_struct();
-
-    dir->entries[id].table = (qword)table >> 12;
-    dir->entries[id].p = 1;
-    dir->entries[id].rw = 1;
-
-    for (int i = 0; i < 512; i++) {
-        table->pages[i].frame = phys >> 12;
-        table->pages[i].p = 1;
-        table->pages[i].rw = 1;
-        phys += 4096;
-    }
-}
-
-void page_map_user(page_dir_t* dir, qword phys, qword virt)
-{
-    short id = virt >> 21;
-    page_table_t* table = alloc_page_struct();
-
-    dir->entries[id].table = (qword)table >> 12;
-    dir->entries[id].p = 1;
-    dir->entries[id].rw = 1;
-    dir->entries[id].us = 1;
-
-    for (int i = 0; i < 512; i++) {
-        table->pages[i].frame = phys >> 12;
-        table->pages[i].p = 1;
-        table->pages[i].rw = 1;
-        table->pages[i].us = 1;
-        phys += 4096;
-    }
+    dir->pages[id].rw = rw;
+    dir->pages[id].us = us;
+    dir->pages[id].xd = xd;
 }
 
 void set_activ_dir(page_dir_t* dir)
