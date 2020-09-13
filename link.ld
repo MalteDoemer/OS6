@@ -49,6 +49,7 @@ SECTIONS
 
     kernel_end = .;
 
+    kernel_stack = 0x1000;
 
     /*_kernel_size = _kernel_end - _kernel_start;*/
     /*kernel_address = _kernel_start;
