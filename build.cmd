@@ -7,7 +7,7 @@ set "INCLUDE_DIR=%ROOT_DIR%\src\Headers\"
 set "BUILD_DIR=%ROOT_DIR%\obj\"
 set "SRC_DIR=%ROOT_DIR%\src\"
 set "LINKER_SCRIPT=%ROOT_DIR%\link.ld"
-set "CFLAGS= -ggdb -m64 -c -ffreestanding -fno-PIE -nostartfiles -nostdlib -std=c99 -I %INCLUDE_DIR%"
+set "CFLAGS= -ggdb -m64 -c -ffreestanding -fno-PIE -nostartfiles -nostdlib -std=c99 -Wno-packed-bitfield-compat -I %INCLUDE_DIR%"
 set "ASMFLAGS= -f elf64 -g -I %INCLUDE_DIR%"
 
 set "ASM=nasm"
@@ -38,7 +38,7 @@ call:objcopy
 goto:eof
 
 :build
-    pushd "%SRC_DIR%"
+    pushd "%SRC_DIR%Kernel"
 
     for /r "." %%i in (*.asm) do (
         %ASM% %ASMFLAGS% "%%~fi" -o "%BUILD_DIR%%%~ni.asm.o" || rem
@@ -51,6 +51,16 @@ goto:eof
     )
 
     popd
+
+    pushd "%SRC_DIR%Loader"
+
+    for %%i in (boot.asm) do (
+        %ASM% %ASMFLAGS% "%%~fi" -o "%BUILD_DIR%%%~ni.asm.o" || rem
+        if errorlevel 1 call:aboard %ASM%
+    )
+
+    popd
+
 goto:eof
 
 :link
