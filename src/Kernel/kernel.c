@@ -9,14 +9,15 @@ void kernel_main()
     init_paging();
     init_vga();
     init_keyboard();
+    init_clock();
 
     vga_puts("Welcome to FettOS\n");
 
     sti();
-    
-    for (;;)
-        vga_putc(read_char());
 
-    for (;;)
+    for (;;) {
         hlt();
+        vga_puth(ticks);
+        vga_putc('\n');
+    }
 }
