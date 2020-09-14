@@ -3,6 +3,9 @@
 
 #include "kernel.h"
 
+#define SLAVE_IRQS 0b11111111
+#define MASTER_IRQS 0b11111000
+
 typedef struct idt_entry_t {
     word low_bits;
     word selector;

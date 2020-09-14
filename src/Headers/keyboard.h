@@ -5,6 +5,8 @@
 
 #define SHIFT_OFFSET 90
 #define ALT_OFFSET 180
+#define KEYMAP swiss_keymap
+
 
 enum SCAN_CODES
 {

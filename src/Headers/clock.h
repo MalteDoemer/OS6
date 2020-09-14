@@ -3,6 +3,8 @@
 
 #include "kernel.h"
 
+#define PIT_FREQUENCY 1
+
 void init_clock();
 void clock_handler(isr_stack_t* stack);
 

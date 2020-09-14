@@ -60,6 +60,7 @@ second_sector:
 [bits 64]
 long_mode:
     mov rsp, kernel_stack
+    mov rdi, 0
     call kernel_main
 
 times 512-($-$$-512) db 0

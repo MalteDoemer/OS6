@@ -1,6 +1,6 @@
 #include "kernel.h"
 
-void kernel_main()
+void kernel_main(boot_info_t* info)
 {
     init_gdt();
     init_idt();
