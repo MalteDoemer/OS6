@@ -3,18 +3,18 @@
 
 #define KERNEL_STACK 0x1000
 
-#include "clock.h"
+#include "types.h"
 #include "common.h"
-#include "config.h"
+#include "kheap.h"
+#include "tables.h"
 #include "gdt.h"
 #include "idt.h"
 #include "isr.h"
-#include "keyboard.h"
-#include "kheap.h"
-#include "monitor.h"
 #include "paging.h"
-#include "tables.h"
-#include "types.h"
+#include "clock.h"
+#include "keyboard.h"
+#include "monitor.h"
+
 
 typedef struct boot_info_t {
     qword kernel_stack;

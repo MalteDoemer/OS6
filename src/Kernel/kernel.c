@@ -2,10 +2,10 @@
 
 void kernel_main(boot_info_t* info)
 {
+    init_kheap();
     init_gdt();
     init_idt();
     init_isr();
-    init_kheap();
     init_paging();
     init_vga();
     init_keyboard();

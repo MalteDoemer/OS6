@@ -1,21 +1,24 @@
 #include "kernel.h"
 
-tss_t tss;
-gdt_t gdt;
+tss_t* tss;
+gdt_t* gdt;
 
 void init_gdt()
 {
-    memsetb((byte*)&gdt, 0, sizeof(gdt_t));
-    memsetb((byte*)&tss, 0, sizeof(tss_t));
+    tss = kmalloc(sizeof(tss_t));
+    gdt = kmalloc(sizeof(gdt_t));
 
-    set_gdt_seg(&gdt.kernel_code, 0, true); 
-    set_gdt_seg(&gdt.kernel_data, 0, false);
-    set_gdt_seg(&gdt.user_code, 3, true);
-    set_gdt_seg(&gdt.user_data, 3, false);
-    set_gdt_tss(&gdt.tss_desc, 3, (qword)&tss, sizeof(tss_t));
+    memsetb((byte*)gdt, 0, sizeof(gdt_t));
+    memsetb((byte*)tss, 0, sizeof(tss_t));
 
-    tss.rsp0 = KERNEL_STACK;
-    load_gdt(sizeof(gdt_t), (qword)&gdt);
+    set_gdt_seg(&gdt->kernel_code, 0, true);
+    set_gdt_seg(&gdt->kernel_data, 0, false);
+    set_gdt_seg(&gdt->user_code, 3, true);
+    set_gdt_seg(&gdt->user_data, 3, false);
+    set_gdt_tss(&gdt->tss_desc, 3, (qword)tss, sizeof(tss_t));
+
+    tss->rsp0 = KERNEL_STACK;
+    load_gdt(sizeof(gdt_t), (qword)gdt);
     flush_tss();
 }
 
@@ -39,4 +42,4 @@ void set_gdt_tss(gdt_tss_desc_t* desc, byte dpl, qword base, word limit)
     desc->base_high = (base >> 24) & 0xFFFFFFFFFF;
 }
 
-void set_kernel_stack(qword rsp) { tss.rsp0 = rsp; }
+void set_kernel_stack(qword rsp) { tss->rsp0 = rsp; }

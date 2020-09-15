@@ -1,6 +1,6 @@
 #include "kernel.h"
 
-isr_t isr_handlers[256];
+isr_t* isr_handlers;
 
 void register_isr(byte index, isr_t isr) { isr_handlers[index] = isr; }
 
@@ -87,6 +87,7 @@ void cascade_irq()
 
 void init_isr()
 {
+    isr_handlers = kmalloc(sizeof(isr_t) * 256);
     register_isr(0x00, isr_divide_by_zero);
     register_isr(0x04, isr_overflow);
     register_isr(0x06, isr_invalid_opcode);

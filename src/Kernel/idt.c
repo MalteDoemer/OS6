@@ -1,6 +1,6 @@
 #include "kernel.h"
 
-idt_t idt;
+idt_t* idt;
 
 void init_idt()
 {
@@ -20,27 +20,30 @@ void init_idt()
     outb(0x21, MASTER_IRQS); // Mask all unused master irq's
     outb(0xA1, SLAVE_IRQS); // Mask all unused slave irq's
 
+    idt = kmalloc(sizeof(idt_t));
+    memsetb((byte*)idt, 0, sizeof(idt_t));
+
     for (int i = 0; i < 32; i++)
         set_idt_entry(i, int_table + i, 0x08, 0x8F);
 
     for (int i = 32; i < 256; i++)
         set_idt_entry(i, int_table + i, 0x08, 0x8E);
 
-    load_idt(sizeof(idt_t) - 1, (qword)&idt);
+    load_idt(sizeof(idt_t) - 1, (qword)idt);
 }
 
 void set_idt_entry(int index, void* int_sub, word selector, byte attributes)
 {
     qword addr = (qword)int_sub;
 
-    idt.entries[index].reserved1 = 0;
-    idt.entries[index].reserved2 = 0;
-    idt.entries[index].attributes = attributes;
-    idt.entries[index].selector = selector;
+    idt->entries[index].reserved1 = 0;
+    idt->entries[index].reserved2 = 0;
+    idt->entries[index].attributes = attributes;
+    idt->entries[index].selector = selector;
 
-    idt.entries[index].low_bits = addr;
+    idt->entries[index].low_bits = addr;
     addr = addr >> 16;
-    idt.entries[index].middle_bits = addr;
+    idt->entries[index].middle_bits = addr;
     addr = addr >> 16;
-    idt.entries[index].high_bits = addr;
+    idt->entries[index].high_bits = addr;
 }
