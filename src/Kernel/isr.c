@@ -88,6 +88,7 @@ void cascade_irq()
 void init_isr()
 {
     isr_handlers = kmalloc(sizeof(isr_t) * 256);
+    memsetb(isr_handlers, 0, sizeof(isr_t) * 256);
     register_isr(0x00, isr_divide_by_zero);
     register_isr(0x04, isr_overflow);
     register_isr(0x06, isr_invalid_opcode);

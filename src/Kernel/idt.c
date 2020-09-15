@@ -21,7 +21,7 @@ void init_idt()
     outb(0xA1, SLAVE_IRQS); // Mask all unused slave irq's
 
     idt = kmalloc(sizeof(idt_t));
-    memsetb((byte*)idt, 0, sizeof(idt_t));
+    memsetb(idt, 0, sizeof(idt_t));
 
     for (int i = 0; i < 32; i++)
         set_idt_entry(i, int_table + i, 0x08, 0x8F);

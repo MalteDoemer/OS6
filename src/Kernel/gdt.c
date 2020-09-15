@@ -8,8 +8,8 @@ void init_gdt()
     tss = kmalloc(sizeof(tss_t));
     gdt = kmalloc(sizeof(gdt_t));
 
-    memsetb((byte*)gdt, 0, sizeof(gdt_t));
-    memsetb((byte*)tss, 0, sizeof(tss_t));
+    memsetb(gdt, 0, sizeof(gdt_t));
+    memsetb(tss, 0, sizeof(tss_t));
 
     set_gdt_seg(&gdt->kernel_code, 0, true);
     set_gdt_seg(&gdt->kernel_data, 0, false);

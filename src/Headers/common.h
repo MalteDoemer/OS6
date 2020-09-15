@@ -35,10 +35,10 @@ static inline void sti() { __asm("sti"); }
 static inline void hlt() { __asm("hlt"); }
 
 /* Sets all bytes in a buffer */
-byte* memsetb(byte* s, byte val, size_t n);
+void* memsetb(void* s, byte val, size_t n);
 
 /* Copy bytes to buffer */
-byte* memcpyb(byte* dest, const byte* src, size_t n);
+void* memcpyb(void* dest, const void* src, size_t n);
 
 /* Sets all words in a buffer */
 word* memsetw(word* s, word val, size_t n);
