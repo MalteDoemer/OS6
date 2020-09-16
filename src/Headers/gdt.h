@@ -76,7 +76,7 @@ void set_gdt_seg(gdt_seg_desc_t* desc, byte dpl, bool code);
 void set_gdt_tss(gdt_tss_desc_t* desc, byte dpl, qword base, word limit);
 
 /* Function defined in assembly.asm to reload the tss */
-void flush_tss();
+void load_tss(word tss_entry);
 
 /* Sets rsp0 in the tss data structure */
 void set_kernel_stack(qword rsp);

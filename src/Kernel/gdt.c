@@ -18,8 +18,8 @@ void init_gdt()
     set_gdt_tss(&gdt->tss_desc, 3, (qword)tss, sizeof(tss_t));
 
     tss->rsp0 = KERNEL_STACK;
-    load_gdt(sizeof(gdt_t), (qword)gdt);
-    flush_tss();
+    load_gdt(sizeof(gdt_t) - 1, (qword)gdt);
+    load_tss(TSS_ENTRY);
 }
 
 void set_gdt_seg(gdt_seg_desc_t* desc, byte dpl, bool code)

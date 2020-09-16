@@ -1,11 +1,5 @@
 section .text
 
-%define KERNEL_CODE (0x08 | 0b000)
-%define KERNEL_DATA (0x10 | 0b000)
-%define USER_CODE (0x18 | 0b011)
-%define USER_DATA (0x20 | 0b011)
-%define TSS_ENTRY (0x28 | 0b011)
-
 [global memsetb]
 memsetb:                           ; function to set bytes
     mov rcx, rdx                   ; init loop counter with arg3
@@ -96,10 +90,9 @@ load_gdt:                          ; function to load the gdt
     lgdt [GDT_INFO]                ; load the gdt
     ret                            ; return
 
-[global flush_tss]
-flush_tss:                         ; function to reload the tss
-    mov ax, TSS_ENTRY              ; mov the tss descriptor into ax
-    ltr ax                         ; load the tss
+[global load_tss]
+load_tss:                          ; function to reload the tss
+    ltr di                         ; load the tss with the first argument
     ret                            ; return
 
 %macro ISR_ERR 1                   ; macro for an interrupt with errorcode
