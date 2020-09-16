@@ -7,6 +7,7 @@ set "INCLUDE_DIR=%ROOT_DIR%\src\Headers\"
 set "BUILD_DIR=%ROOT_DIR%\obj\"
 set "SRC_DIR=%ROOT_DIR%\src\"
 set "LINKER_SCRIPT=%ROOT_DIR%\link.ld"
+set "HDDIMAGE=%ROOT_DIR%\userland\hdd.img"
 set "CFLAGS= -ggdb -m64 -c -ffreestanding -fno-PIE -nostartfiles -nostdlib -std=c99 -Wno-packed-bitfield-compat -I %INCLUDE_DIR%"
 set "ASMFLAGS= -f elf64 -g -I %INCLUDE_DIR%"
 
@@ -86,12 +87,12 @@ goto:eof
 goto:eof
 
 :run
-%QEMU% %RESULT_FILE% || rem
+%QEMU% %RESULT_FILE% -drive file=%HDDIMAGE%,if=ide || rem
 if errorlevel 1 call:aboard %QEMU%
 goto:eof
 
 :debug
-%QEMU% %RESULT_FILE% -S -gdb tcp::9000 || rem
+%QEMU% %RESULT_FILE% -drive file=%HDDIMAGE%,if=ide -S -gdb tcp::9000 || rem
 if errorlevel 1 call:aboard %QEMU%
 goto:eof
 
