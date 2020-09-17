@@ -1,6 +1,7 @@
 /bin
 /obj
 /.vscode
+.clang-format
 userland/hdd.img
 shell.py
 old.txt
