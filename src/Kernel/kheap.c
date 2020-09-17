@@ -75,8 +75,17 @@ void heap_free(heap_t heap, void* ptr)
     }
 }
 
-void* kmalloc(size_t size) { return heap_alloc(kheap, size); }
+void* kmalloc(size_t size)
+{
+    return heap_alloc(kheap, size);
+}
 
-void kfree(void* ptr) { heap_free(kheap, ptr); }
+void kfree(void* ptr)
+{
+    heap_free(kheap, ptr);
+}
 
-void init_kheap() { kheap = make_heap((void*)0x200000, 0x100000); }
+void init_kheap()
+{
+    kheap = make_heap((void*)KHEAP_BASE, KHEAP_SIZE);
+}

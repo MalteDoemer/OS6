@@ -12,7 +12,7 @@ void init_clock()
     outb(0x40, (divisor >> 8) & 0xFF);
 }
 
-void clock_handler(isr_stack_t* stack)
+void clock_handler(cpu_state_t* stack)
 {
     ticks++;
     outb(0x20, 0x20); // EOI

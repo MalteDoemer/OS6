@@ -3,8 +3,6 @@
 
 #include "kernel.h"
 
-#define PAGE_S 4096
-
 typedef struct page_t {
     byte p : 1;
     byte rw : 1;

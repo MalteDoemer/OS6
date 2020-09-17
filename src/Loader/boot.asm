@@ -37,11 +37,11 @@ call memory_detect        ; gets information about ram
 
 jmp second_sector         ; go on to the second sector
 
-%include "print.asm"
-%include "disk.asm"
-%include "A20.asm"
-%include "unreal.asm"
-%include "memory.asm"
+%include "src/Loader/print.asm"
+%include "src/Loader/disk.asm"
+%include "src/Loader/A20.asm"
+%include "src/Loader/unreal.asm"
+%include "src/Loader/memory.asm"
 
 times 510-($-$$) db 0     ; padding to 510 bytes
 dw 0xAA55                 ; magic signature for the bios
@@ -52,10 +52,10 @@ second_sector:
     call setup_paging
     call enter_lm
 
-%include "checklm.asm"
-%include "load.asm"
-%include "paging.asm"
-%include "enterlm.asm"
+%include "src/Loader/checklm.asm"
+%include "src/Loader/load.asm"
+%include "src/Loader/paging.asm"
+%include "src/Loader/enterlm.asm"
 
 [bits 64]
 long_mode:

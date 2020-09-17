@@ -7,7 +7,7 @@ void kernel_main(boot_info_t* info)
     init_idt();
     init_isr();
     init_paging();
-        
+
     init_vga();
     init_keyboard();
     init_clock();
@@ -16,6 +16,9 @@ void kernel_main(boot_info_t* info)
 
     sti();
 
-    for (;;)
+    for (;;) {
         hlt();
+        vga_puth(ticks);
+        vga_putc('\n');
+    }
 }

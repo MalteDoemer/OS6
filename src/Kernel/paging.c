@@ -1,6 +1,6 @@
 #include "kernel.h"
 
-bool page_struct_table[158];
+bool page_struct_table[256];
 
 pdpt_t* pdpt;
 page_dir_t* kernel_dir;
@@ -8,22 +8,10 @@ page_dir_t* current_dir;
 
 void init_paging()
 {
-    /* mark page structs made by boot.asm as allocated */
-    page_struct_table[0] = true; // pml4t at 0x1000
-    page_struct_table[1] = true; // pdpt  at 0x2000
-    page_struct_table[2] = true; // pd    at 0x3000
-    page_struct_table[3] = true; // pt    at 0x4000
-    page_struct_table[4] = true; // pt    at 0x5000
-
     /* map two 2 MBytes pages */
     pdpt = (pdpt_t*)0x2000;
     kernel_dir = make_page_dir();
     set_activ_dir(kernel_dir);
-
-    /* deallocate the old ones */
-    page_struct_table[2] = false; // pd    at 0x3000
-    page_struct_table[3] = false; // pt    at 0x4000
-    page_struct_table[4] = false; // pt    at 0x5000
 }
 
 page_dir_t* make_page_dir()
@@ -76,10 +64,10 @@ void set_activ_dir(page_dir_t* dir)
 
 void* alloc_page_struct()
 {
-    for (qword i = 0; i < 158; i++) {
+    for (qword i = 0; i < 256; i++) {
         if (!page_struct_table[i]) {
             page_struct_table[i] = true;
-            void* addr = (void*)(0x1000 + i * 0x1000);
+            void* addr = (void*)(PAGE_TABLE_BASE + i * 0x1000);
             memsetb(addr, 0, 0x1000);
             return addr;
         }
