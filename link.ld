@@ -8,7 +8,7 @@ SECTIONS
 
     _loader_start = .;
     .loader : {
-        boot.asm.o(.text)
+        *boot.o(.text)
     }
     _loader_end = .;
 
@@ -25,7 +25,7 @@ SECTIONS
     
     kernel_start = .;
     .text : {
-        kernel.c.o(.text)
+        *kernel.o(.text)
         *(.text)
         *(.rdata)
     }
