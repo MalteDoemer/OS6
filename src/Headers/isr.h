@@ -3,16 +3,16 @@
 
 #include "kernel.h"
 
-typedef struct isr_stack_t {
+typedef struct cpu_state_t {
     qword r15, r14, r13, r12, r11, r10, r9, r8, rbp, rdi, rsi, rdx, rcx, rbx, rax;
     qword err;
     qword rip, cs, flags, rsp, ss;
-} isr_stack_t;
+} cpu_state_t;
 
-typedef void (*isr_t)(isr_stack_t*);
+typedef void (*isr_t)(cpu_state_t*);
 
 /* Handler called from assembly.asm */
-void isr_handler(qword int_num, isr_stack_t* stack);
+void isr_handler(qword int_num, cpu_state_t* stack);
 
 /* Initialize Interrupt Service Routines */
 void init_isr();

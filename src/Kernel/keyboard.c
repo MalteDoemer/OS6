@@ -31,7 +31,7 @@ wait_for_char:
     return chr;
 }
 
-void keyboard_handler(isr_stack_t* stack)
+void keyboard_handler(cpu_state_t* stack)
 {
     byte status = inb(0x64);
 

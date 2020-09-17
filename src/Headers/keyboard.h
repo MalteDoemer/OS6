@@ -44,7 +44,7 @@ enum SCAN_CODES
 
 void init_keyboard();
 
-void keyboard_handler(isr_stack_t* stack);
+void keyboard_handler(cpu_state_t* stack);
 
 byte read_char();
 

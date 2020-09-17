@@ -9,7 +9,7 @@
 void init_clock();
 
 /* Interrupt handler for the clock */
-void clock_handler(isr_stack_t* stack);
+void clock_handler(cpu_state_t* stack);
 
 /* Total amount of PIT clock ticks since startup */
 extern qword ticks;

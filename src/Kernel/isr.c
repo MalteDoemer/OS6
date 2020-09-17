@@ -4,7 +4,7 @@ isr_t* isr_handlers;
 
 void register_isr(byte index, isr_t isr) { isr_handlers[index] = isr; }
 
-void isr_handler(qword int_num, isr_stack_t* stack)
+void isr_handler(qword int_num, cpu_state_t* stack)
 {
     if (isr_handlers[int_num])
         isr_handlers[int_num](stack);
@@ -20,7 +20,7 @@ void isr_handler(qword int_num, isr_stack_t* stack)
     }
 }
 
-void isr_divide_by_zero(isr_stack_t* stack)
+void isr_divide_by_zero(cpu_state_t* stack)
 {
     vga_attrib = 0x1F;
     vga_clear();
@@ -30,7 +30,7 @@ void isr_divide_by_zero(isr_stack_t* stack)
         hlt();
 }
 
-void isr_overflow(isr_stack_t* stack)
+void isr_overflow(cpu_state_t* stack)
 {
     vga_attrib = 0x1F;
     vga_clear();
@@ -40,7 +40,7 @@ void isr_overflow(isr_stack_t* stack)
         hlt();
 }
 
-void isr_invalid_opcode(isr_stack_t* stack)
+void isr_invalid_opcode(cpu_state_t* stack)
 {
     vga_attrib = 0x1F;
     vga_clear();
@@ -50,7 +50,7 @@ void isr_invalid_opcode(isr_stack_t* stack)
         hlt();
 }
 
-void isr_double_fault(isr_stack_t* stack)
+void isr_double_fault(cpu_state_t* stack)
 {
     vga_attrib = 0x1F;
     vga_clear();
@@ -60,7 +60,7 @@ void isr_double_fault(isr_stack_t* stack)
         hlt();
 }
 
-void isr_invalid_tss(isr_stack_t* stack)
+void isr_invalid_tss(cpu_state_t* stack)
 {
     vga_attrib = 0x1F;
     vga_clear();
@@ -70,7 +70,7 @@ void isr_invalid_tss(isr_stack_t* stack)
         hlt();
 }
 
-void isr_general_protection_fault(isr_stack_t* stack)
+void isr_general_protection_fault(cpu_state_t* stack)
 {
     vga_attrib = 0x1F;
     vga_clear();
