@@ -41,22 +41,22 @@ void* memsetb(void* s, byte val, size_t n);
 void* memcpyb(void* dest, const void* src, size_t n);
 
 /* Sets all words in a buffer */
-word* memsetw(word* s, word val, size_t n);
+void* memsetw(void* s, word val, size_t n);
 
 /* Copy words to buffer */
-word* memcpyw(word* dest, const word* src, size_t n);
+void* memcpyw(void* dest, const void* src, size_t n);
 
 /* Sets all dwords in a buffer */
-dword* memsetd(dword* s, dword val, size_t n);
+void* memsetd(void* s, dword val, size_t n);
 
 /* Copy dwords to buffer */
-dword* memcpyd(dword* dest, const dword* src, size_t n);
+void* memcpyd(void* dest, const void* src, size_t n);
 
 /* Sets all qwords in a buffer */
-qword* memsetq(qword* s, qword val, size_t n);
+void* memsetq(void* s, qword val, size_t n);
 
 /* Copy qwords to buffer */
-qword* memcpyq(qword* dest, const qword* src, size_t n);
+void* memcpyq(void* dest, const void* src, size_t n);
 
 /* Get the length of a null-terminated string */
 size_t strlen(char* str);
