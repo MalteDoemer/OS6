@@ -31,6 +31,6 @@ void vga_puts(byte* str);
 void vga_puth(dword num);
 
 /* Copy a buffer to video memory */
-void vga_copy(word* buffer, size_t length);
+void vga_copy(word* buffer);
 
 #endif // #ifndef MONITOR_H

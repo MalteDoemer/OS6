@@ -23,10 +23,8 @@ void vga_update_cursor()
 void vga_scroll()
 {
     if (cursor >= VGA_CHARS) {
-        for (int i = 0; i < VGA_CHARS - VGA_WIDTH; i++)
-            vga_buffer[i] = vga_buffer[i + VGA_WIDTH];
-        for (int i = VGA_CHARS - VGA_WIDTH; i < VGA_CHARS; i++)
-            vga_buffer[i] = (vga_attrib << 8) | ' ';
+        memcpyw(vga_buffer, vga_buffer + VGA_WIDTH, VGA_CHARS - VGA_WIDTH);
+        memsetw(vga_buffer + (VGA_CHARS - VGA_WIDTH), (vga_attrib << 8) | ' ', VGA_WIDTH);
         cursor = VGA_CHARS - VGA_WIDTH;
         vga_update_cursor();
     }
@@ -70,7 +68,7 @@ void vga_clear()
     vga_update_cursor();
 }
 
-void vga_copy(word* buffer, size_t length) { memcpyw(vga_buffer, buffer, length); }
+void vga_copy(word* buffer) { memcpyw(vga_buffer, buffer, VGA_CHARS); }
 
 void vga_puth(dword num)
 {
