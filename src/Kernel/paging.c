@@ -4,6 +4,7 @@ bool page_struct_table[158];
 
 pdpt_t* pdpt;
 page_dir_t* kernel_dir;
+page_dir_t* current_dir;
 
 void init_paging()
 {
@@ -58,8 +59,12 @@ void map_page(page_dir_t* dir, qword virt, qword phys, bool rw, bool us, bool xd
 
 void set_activ_dir(page_dir_t* dir)
 {
+    if (current_dir == dir)
+        return;
+    current_dir = dir;
+
     pdpte_t entry;
-    memsetq((qword*)&entry, 0, 1);
+    memsetq(&entry, 0, 1);
 
     entry.p = 1;
     entry.rw = 1;
