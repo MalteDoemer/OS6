@@ -6,6 +6,7 @@ OS_BIN = bin/os.bin
 OS_ELF = obj/os.o
 
 HDD_IMAGE = userland/hdd.img
+HDD_IMAGE_SIZE = 1M
 
 AS = nasm.exe
 CC = x86_64-elf-gcc.exe
@@ -18,7 +19,7 @@ CC_FLAGS = -ggdb -m64 -c -ffreestanding -fno-PIE -nostartfiles -nostdlib -std=c9
 LD_FLAGS = -T link.ld
 
 
-KERNEL_OBJS = assembly.o clock.o common.o gdt.o idt.o isr.o kernel.o keyboard.o kheap.o monitor.o paging.o tables.o process.o
+KERNEL_OBJS = assembly.o clock.o common.o gdt.o idt.o isr.o kernel.o keyboard.o kheap.o monitor.o paging.o tables.o process.o ata.o
 LOADER_OBJS = boot.o
 
 KERNEL_OBJS := $(patsubst %,obj/Kernel/%,$(KERNEL_OBJS))
@@ -55,3 +56,6 @@ debug: $(OS_BIN)
 
 clean:
 	rm -f $(OBJS) $(OS_ELF) $(LOADER) $(KERNEL) $(OS_BIN)
+
+image:
+	qemu-img.exe create $(HDD_IMAGE) $(HDD_IMAGE_SIZE)

@@ -14,11 +14,17 @@ void kernel_main(boot_info_t* info)
 
     vga_puts("Welcome to FettOS\n");
 
+    init_ata();
+
+    select_ata(ATA_PRIMARY_IO, false);
+
+    char buffer[512];
+    memsetb(buffer, 0, 512);
+    memcpyb(buffer, "Fett", 4);
+    ata_write_block((uint16_t*)buffer, 0);
+
     sti();
 
-    for (;;) {
+    for (;;)
         hlt();
-        vga_puth(ticks);
-        vga_putc('\n');
-    }
 }

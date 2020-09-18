@@ -13,14 +13,20 @@
 #define ATA_CMD 0x7
 #define ATA_CTRL 0x206
 
-typedef struct ata_t {
-    uint16_t base_port;
-    bool master;
-} ata_t;
+#define ATA_PRIMARY_IO 0x1F0
+#define ATA_SECONDARY_IO 0x170
 
-void ata_identify(ata_t* ata);
-void ata_read_28(ata_t* ata, uint32_t sector_num, uint32_t count);
-void ata_write_28(ata_t* ata, uint32_t sector_num, uint8_t* data, uint32_t count);
-void ata_flush(ata_t* ata);
+void init_ata();
+
+bool select_ata(uint16_t port, bool master);
+bool ata_identify();
+bool ata_poll();
+
+bool ata_read_block(uint16_t* buffer, uint32_t lba);
+bool ata_write_block(uint16_t* buffer, uint32_t lba);
+
+bool ata_read(uint16_t* buffer, uint32_t lba, uint32_t count);
+bool ata_write(uint16_t* buffer, uint32_t lba, uint32_t count);
+
 
 #endif // #ifndef ATA_H
