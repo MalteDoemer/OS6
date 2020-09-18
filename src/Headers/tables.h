@@ -3,7 +3,7 @@
 
 #include "kernel.h"
 
-extern byte ansi_to_vga[256];
-extern byte swiss_keymap[270];
+extern uint8_t ansi_to_vga[256];
+extern uint8_t swiss_keymap[270];
 
 #endif // #ifndef TABLES_H

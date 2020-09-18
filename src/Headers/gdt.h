@@ -10,48 +10,48 @@
 #define TSS_ENTRY (0x28 | 0b011)
 
 typedef struct tss_t {
-    dword r1;
-    qword rsp0;
-    qword rsp1;
-    qword rsp2;
-    qword r2;
-    qword ist1;
-    qword ist2;
-    qword ist3;
-    qword ist4;
-    qword ist5;
-    qword ist6;
-    qword ist7;
-    qword r3;
-    word r4;
-    word IOPB;
+    duint16_t r1;
+    quint16_t rsp0;
+    quint16_t rsp1;
+    quint16_t rsp2;
+    quint16_t r2;
+    quint16_t ist1;
+    quint16_t ist2;
+    quint16_t ist3;
+    quint16_t ist4;
+    quint16_t ist5;
+    quint16_t ist6;
+    quint16_t ist7;
+    quint16_t r3;
+    uint16_t r4;
+    uint16_t IOPB;
 } __attribute__((__packed__)) tss_t;
 
 typedef struct gdt_seg_desc_t {
-    qword : 40;
-    byte : 1;
-    byte : 1;
-    byte : 1;
-    byte cd : 1;
-    byte s : 1;
-    byte dpl : 2;
-    byte p : 1;
-    byte : 5;
-    byte l : 1;
-    word : 10;
+    quint16_t : 40;
+    uint8_t : 1;
+    uint8_t : 1;
+    uint8_t : 1;
+    uint8_t cd : 1;
+    uint8_t s : 1;
+    uint8_t dpl : 2;
+    uint8_t p : 1;
+    uint8_t : 5;
+    uint8_t l : 1;
+    uint16_t : 10;
 } __attribute__((__packed__)) gdt_seg_desc_t;
 
 typedef struct gdt_tss_desc_t {
-    word limit;
-    dword base_low : 24;
-    byte type : 4;
-    byte : 1;
-    byte dpl : 2;
-    byte p : 1;
-    byte : 8;
-    byte : 4;
-    qword base_high : 40;
-    dword : 32;
+    uint16_t limit;
+    duint16_t base_low : 24;
+    uint8_t type : 4;
+    uint8_t : 1;
+    uint8_t dpl : 2;
+    uint8_t p : 1;
+    uint8_t : 8;
+    uint8_t : 4;
+    quint16_t base_high : 40;
+    duint16_t : 32;
 } __attribute__((__packed__)) gdt_tss_desc_t;
 
 typedef struct gdt_t {
@@ -67,18 +67,18 @@ typedef struct gdt_t {
 void init_gdt();
 
 /* Function defined in assembly.asm to load the gdt */
-void load_gdt(word limit, qword base);
+void load_gdt(uint16_t limit, quint16_t base);
 
 /* Set an entry in the Global Descriptor Table */
-void set_gdt_seg(gdt_seg_desc_t* desc, byte dpl, bool code);
+void set_gdt_seg(gdt_seg_desc_t* desc, uint8_t dpl, bool code);
 
 /* Writes a tss entry into the gdt */
-void set_gdt_tss(gdt_tss_desc_t* desc, byte dpl, qword base, word limit);
+void set_gdt_tss(gdt_tss_desc_t* desc, uint8_t dpl, quint16_t base, uint16_t limit);
 
 /* Function defined in assembly.asm to reload the tss */
-void load_tss(word tss_entry);
+void load_tss(uint16_t tss_entry);
 
 /* Sets rsp0 in the tss data structure */
-void set_kernel_stack(qword rsp);
+void set_kernel_stack(quint16_t rsp);
 
 #endif // #ifndef GDT_H

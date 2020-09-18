@@ -1,14 +1,14 @@
 #include "kernel.h"
 
-word cursor;
-byte vga_attrib;
-word* vga_buffer;
+uint16_t cursor;
+uint8_t vga_attrib;
+uint16_t* vga_buffer;
 
 void init_vga()
 {
     cursor = 0;
     vga_attrib = 0x1F;
-    vga_buffer = (word*)0xB8000;
+    vga_buffer = (uint16_t*)0xB8000;
     vga_clear();
 }
 
@@ -30,7 +30,7 @@ void vga_scroll()
     }
 }
 
-void vga_putc(byte c)
+void vga_putc(uint8_t c)
 {
     if (c == 0)
         return;
@@ -53,7 +53,7 @@ void vga_putc(byte c)
     vga_update_cursor();
 }
 
-void vga_puts(byte* str)
+void vga_puts(uint8_t* str)
 {
     while (*str) {
         vga_putc(*str);
@@ -68,11 +68,11 @@ void vga_clear()
     vga_update_cursor();
 }
 
-void vga_copy(word* buffer) { memcpyw(vga_buffer, buffer, VGA_CHARS); }
+void vga_copy(uint16_t* buffer) { memcpyw(vga_buffer, buffer, VGA_CHARS); }
 
-void vga_puth(dword num)
+void vga_puth(duint16_t num)
 {
-    static const byte* pattern = "0123456789ABCDEF";
+    static const uint8_t* pattern = "0123456789ABCDEF";
 
     vga_putc('0');
     vga_putc('x');

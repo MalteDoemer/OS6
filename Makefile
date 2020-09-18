@@ -1,4 +1,4 @@
-#ROOT = $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
+#ROOT = $(dir $(abspath $(lastuint16_t $(MAKEFILE_LIST))))
 
 LOADER = bin/loader.bin
 KERNEL = bin/kernel.bin

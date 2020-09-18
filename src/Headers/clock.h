@@ -12,6 +12,6 @@ void init_clock();
 void clock_handler(cpu_state_t* stack);
 
 /* Total amount of PIT clock ticks since startup */
-extern qword ticks;
+extern quint16_t ticks;
 
 #endif // #ifndef CLOCK_H

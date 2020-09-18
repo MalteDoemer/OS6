@@ -6,23 +6,23 @@
 #define PAGE_SIZE 0x100000
 
 typedef struct page_t {
-    byte p : 1;
-    byte rw : 1;
-    byte us : 1;
-    byte pwt : 1;
-    byte pcd : 1;
-    byte a : 1;
-    byte d : 1;
-    byte ps : 1;
-    byte g : 1;
-    byte : 3;
-    byte pat : 1;
-    byte : 8;
-    dword frame : 11;
-    dword : 20;
-    byte : 7;
-    byte pk : 4;
-    byte xd : 1;
+    uint8_t p : 1;
+    uint8_t rw : 1;
+    uint8_t us : 1;
+    uint8_t pwt : 1;
+    uint8_t pcd : 1;
+    uint8_t a : 1;
+    uint8_t d : 1;
+    uint8_t ps : 1;
+    uint8_t g : 1;
+    uint8_t : 3;
+    uint8_t pat : 1;
+    uint8_t : 8;
+    duint16_t frame : 11;
+    duint16_t : 20;
+    uint8_t : 7;
+    uint8_t pk : 4;
+    uint8_t xd : 1;
 } __attribute__((__packed__)) page_t;
 
 typedef struct page_dir_t {
@@ -30,16 +30,16 @@ typedef struct page_dir_t {
 } __attribute__((__packed__)) page_dir_t;
 
 typedef struct pdpte_t {
-    byte p : 1;
-    byte rw : 1;
-    byte us : 1;
-    byte pwt : 1;
-    byte pcd : 1;
-    byte a : 1;
-    byte : 6;
-    dword dir : 20;
-    dword : 31;
-    byte xd : 1;
+    uint8_t p : 1;
+    uint8_t rw : 1;
+    uint8_t us : 1;
+    uint8_t pwt : 1;
+    uint8_t pcd : 1;
+    uint8_t a : 1;
+    uint8_t : 6;
+    duint16_t dir : 20;
+    duint16_t : 31;
+    uint8_t xd : 1;
 } __attribute__((__packed__)) pdpte_t;
 
 typedef struct pdpt_t {
@@ -55,14 +55,14 @@ page_dir_t* make_page_dir();
 /* Sets the first entry of the page directory pointer table and flushes all pages */
 void set_activ_dir(page_dir_t* dir);
 
-/* maps a 2 MBytes page with the specified flags */
-void map_page(page_dir_t* dir, qword virt, qword phys, bool rw, bool us, bool exec);
+/* maps a 2 Muint8_ts page with the specified flags */
+void map_page(page_dir_t* dir, quint16_t virt, quint16_t phys, bool rw, bool us, bool exec);
 
-qword allocate_page_frame();
+quint16_t allocate_page_frame();
 
-void free_page_frame(qword addr);
+void free_page_frame(quint16_t addr);
 
-/* Tries to allocate a 4 KByte aligned and 4 KByte large area */
+/* Tries to allocate a 4 Kuint8_t aligned and 4 Kuint8_t large area */
 void* alloc_page_struct();
 
 /* Frees a pointer returned by alloc_page_struct */
