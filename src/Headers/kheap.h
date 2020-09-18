@@ -7,7 +7,7 @@
 
 typedef struct chunk_t chunk_t;
 typedef struct chunk_t {
-    dword magic;
+    uint32_t magic;
     chunk_t* prev;
     chunk_t* next;
     size_t size : 63;

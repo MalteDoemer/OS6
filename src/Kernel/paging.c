@@ -2,7 +2,7 @@
 
 bool page_struct_table[256];
 
-qword memtop;
+uint64_t memtop;
 
 pdpt_t* pdpt;
 page_dir_t* kernel_dir;
@@ -36,9 +36,9 @@ page_dir_t* make_page_dir()
     return dir;
 }
 
-void map_page(page_dir_t* dir, qword virt, qword phys, bool rw, bool us, bool xd)
+void map_page(page_dir_t* dir, uint64_t virt, uint64_t phys, bool rw, bool us, bool xd)
 {
-    word id = virt >> 21;
+    uint16_t id = virt >> 21;
     dir->pages[id].p = 1;
     dir->pages[id].ps = 1;
     dir->pages[id].frame = phys >> 21;
@@ -59,7 +59,7 @@ void set_activ_dir(page_dir_t* dir)
 
     entry.p = 1;
     entry.rw = 1;
-    entry.dir = (qword)dir >> 12;
+    entry.dir = (uint64_t)dir >> 12;
 
     pdpt->directories[0] = entry;
     flush_pages();
@@ -67,7 +67,7 @@ void set_activ_dir(page_dir_t* dir)
 
 void* alloc_page_struct()
 {
-    for (qword i = 0; i < 256; i++) {
+    for (uint64_t i = 0; i < 256; i++) {
         if (!page_struct_table[i]) {
             page_struct_table[i] = true;
             void* addr = (void*)(PAGE_TABLE_BASE + i * 0x1000);
@@ -81,15 +81,15 @@ void* alloc_page_struct()
 
 void free_page_struct(void* ptr)
 {
-    int index = ((qword)ptr >> 12) - 1;
+    int index = ((uint64_t)ptr >> 12) - 1;
     page_struct_table[index] = false;
 }
 
-qword allocate_page_frame()
+uint64_t allocate_page_frame()
 {
-    qword hold = memtop;
+    uint64_t hold = memtop;
     memtop += PAGE_SIZE;
     return hold;
 }
 
-void free_page_frame(qword addr) { }
+void free_page_frame(uint64_t addr) { }

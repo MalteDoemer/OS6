@@ -14,13 +14,13 @@
 #define ATA_CTRL 0x206
 
 typedef struct ata_t {
-    word base_port;
+    uint16_t base_port;
     bool master;
 } ata_t;
 
 void ata_identify(ata_t* ata);
-void ata_read_28(ata_t* ata, dword sector_num, dword count);
-void ata_write_28(ata_t* ata, dword sector_num, byte* data, dword count);
+void ata_read_28(ata_t* ata, uint32_t sector_num, uint32_t count);
+void ata_write_28(ata_t* ata, uint32_t sector_num, uint8_t* data, uint32_t count);
 void ata_flush(ata_t* ata);
 
 #endif // #ifndef ATA_H

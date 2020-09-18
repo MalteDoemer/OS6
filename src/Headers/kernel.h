@@ -26,12 +26,12 @@
 #include "monitor.h"
 
 typedef struct boot_info_t {
-    qword kernel_stack;
-    qword kernel_base;
-    qword kernel_size;
-    qword low_mem_size;
-    qword high_mem_size;
-    byte boot_drive;
+    uint64_t kernel_stack;
+    uint64_t kernel_base;
+    uint64_t kernel_size;
+    uint64_t low_mem_size;
+    uint64_t high_mem_size;
+    uint8_t boot_drive;
 } __attribute__((packed)) boot_info_t;
 
 /* The entrypoint of the kernel */

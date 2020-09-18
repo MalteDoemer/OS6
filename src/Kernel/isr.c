@@ -2,9 +2,9 @@
 
 isr_t* isr_handlers;
 
-void register_isr(byte index, isr_t isr) { isr_handlers[index] = isr; }
+void register_isr(uint8_t index, isr_t isr) { isr_handlers[index] = isr; }
 
-void isr_handler(qword int_num, cpu_state_t* stack)
+void isr_handler(uint64_t int_num, cpu_state_t* stack)
 {
     if (isr_handlers[int_num])
         isr_handlers[int_num](stack);

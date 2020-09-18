@@ -29,12 +29,12 @@ void init_idt()
     for (int i = 32; i < 256; i++)
         set_idt_entry(i, int_table + i, 0x08, 0x8E);
 
-    load_idt(sizeof(idt_t) - 1, (qword)idt);
+    load_idt(sizeof(idt_t) - 1, (uint64_t)idt);
 }
 
-void set_idt_entry(int index, void* int_sub, word selector, byte attributes)
+void set_idt_entry(int index, void* int_sub, uint16_t selector, uint8_t attributes)
 {
-    qword addr = (qword)int_sub;
+    uint64_t addr = (uint64_t)int_sub;
 
     idt->entries[index].reserved1 = 0;
     idt->entries[index].reserved2 = 0;

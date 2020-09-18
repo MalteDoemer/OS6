@@ -26,7 +26,7 @@ void* heap_alloc(heap_t heap, size_t size)
         return NULL;
 
     if (chunk->size >= size + sizeof(chunk_t) + 1) {
-        chunk_t* temp = (chunk_t*)((qword)chunk + sizeof(chunk_t) + size);
+        chunk_t* temp = (chunk_t*)((uint64_t)chunk + sizeof(chunk_t) + size);
 
         temp->allocated = false;
         temp->size = chunk->size - size - sizeof(chunk_t);
@@ -45,12 +45,12 @@ void* heap_alloc(heap_t heap, size_t size)
 
     chunk->allocated = true;
 
-    return (void*)((qword)chunk + sizeof(chunk_t));
+    return (void*)((uint64_t)chunk + sizeof(chunk_t));
 }
 
 void heap_free(heap_t heap, void* ptr)
 {
-    chunk_t* chunk = (chunk_t*)((qword)ptr - sizeof(chunk_t));
+    chunk_t* chunk = (chunk_t*)((uint64_t)ptr - sizeof(chunk_t));
     if (chunk->magic != HEAP_MAGIC)
         return;
 
