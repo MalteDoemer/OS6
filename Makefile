@@ -18,7 +18,7 @@ CC_FLAGS = -ggdb -m64 -c -ffreestanding -fno-PIE -nostartfiles -nostdlib -std=c9
 LD_FLAGS = -T link.ld
 
 
-KERNEL_OBJS = assembly.o clock.o common.o gdt.o idt.o isr.o kernel.o keyboard.o kheap.o monitor.o paging.o tables.o
+KERNEL_OBJS = assembly.o clock.o common.o gdt.o idt.o isr.o kernel.o keyboard.o kheap.o monitor.o paging.o tables.o process.o
 LOADER_OBJS = boot.o
 
 KERNEL_OBJS := $(patsubst %,obj/Kernel/%,$(KERNEL_OBJS))

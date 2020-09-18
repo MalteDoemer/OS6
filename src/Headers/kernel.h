@@ -9,6 +9,8 @@
 #define KHEAP_BASE (PAGE_TABLE_BASE + PAGE_TABLE_SIZE)
 #define KHEAP_SIZE 0x200000
 
+#define MEM_TOP 0x400000
+
 #include "types.h"
 #include "common.h"
 #include "kheap.h"

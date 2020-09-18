@@ -3,6 +3,8 @@
 
 #include "kernel.h"
 
+#define PAGE_SIZE 0x100000
+
 typedef struct page_t {
     byte p : 1;
     byte rw : 1;
@@ -56,6 +58,10 @@ void set_activ_dir(page_dir_t* dir);
 /* maps a 2 MBytes page with the specified flags */
 void map_page(page_dir_t* dir, qword virt, qword phys, bool rw, bool us, bool exec);
 
+qword allocate_page_frame();
+
+void free_page_frame(qword addr);
+
 /* Tries to allocate a 4 KByte aligned and 4 KByte large area */
 void* alloc_page_struct();
 
@@ -63,6 +69,9 @@ void* alloc_page_struct();
 void free_page_struct(void* ptr);
 
 /* Flushes all pages by reloading cr3 */
-static inline void flush_pages() { __asm("movq %cr3, %rax\nmovq %rax, %cr3"); }
+static inline void flush_pages()
+{
+    __asm("movq %cr3, %rax\nmovq %rax, %cr3");
+}
 
 #endif // #ifndef PAGING_H

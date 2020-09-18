@@ -2,12 +2,15 @@
 
 bool page_struct_table[256];
 
+qword memtop;
+
 pdpt_t* pdpt;
 page_dir_t* kernel_dir;
 page_dir_t* current_dir;
 
 void init_paging()
 {
+    memtop = MEM_TOP;
     /* map two 2 MBytes pages */
     pdpt = (pdpt_t*)0x2000;
     kernel_dir = make_page_dir();
@@ -81,3 +84,12 @@ void free_page_struct(void* ptr)
     int index = ((qword)ptr >> 12) - 1;
     page_struct_table[index] = false;
 }
+
+qword allocate_page_frame()
+{
+    qword hold = memtop;
+    memtop += PAGE_SIZE;
+    return hold;
+}
+
+void free_page_frame(qword addr) { }
