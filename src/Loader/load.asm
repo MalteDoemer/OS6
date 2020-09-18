@@ -1,7 +1,7 @@
 load_kernel:
     mov cl, 3                       ; start to read at third sector
     mov al, 1                       ; read mode
-    mov dl, uint8_t [boot_drive]       ; read from boot drive
+    mov dl, byte [boot_drive]       ; read from boot drive
     mov bx, 0x8000                  ; some random address that's free
     mov edi, kernel_start           ; kernel will be loaded here
 
@@ -12,11 +12,11 @@ load_kernel:
         push eax                    ; save eax
 
         mov esi, 0x8000             ; we will be copying from esi -> edi
-        mov ecx, 128                ; copy 128 duint16_ts
+        mov ecx, 128                ; copy 128 dwords
 
         .copy:
-            mov eax, duint16_t [es:esi] ; load value at esi
-            mov duint16_t [es:edi], eax ; store value at edi
+            mov eax, dword [es:esi] ; load value at esi
+            mov dword [es:edi], eax ; store value at edi
             add esi, 4              ; increment esi
             add edi, 4              ; increment edi
             loop .copy              ; loop

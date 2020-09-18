@@ -20,14 +20,14 @@ jmp 0:.clear_seg
     cld                   ; clear direction flag
 sti                       ; restore interrupts
 
-mov uint8_t [boot_drive], dl ; the bios fills dl with our initial boot drive
+mov byte [boot_drive], dl ; the bios fills dl with our initial boot drive
 
 xor ax, ax
 int 13                    ; reset the disk to known state
 
 mov al, 1                 ; read one sector
 mov cl, 2                 ; start at second sector
-mov dl, uint8_t [boot_drive] ; read from our boot drive
+mov dl, byte [boot_drive] ; read from our boot drive
 mov bx, second_sector     ; load at memory addr of second sector (0x7E00)
 call read_disk            ; read from disk
 
@@ -43,7 +43,7 @@ jmp second_sector         ; go on to the second sector
 %include "src/Loader/unreal.asm"
 %include "src/Loader/memory.asm"
 
-times 510-($-$$) db 0     ; padding to 510 uint8_ts
+times 510-($-$$) db 0     ; padding to 510 bytes
 dw 0xAA55                 ; magic signature for the bios
 
 second_sector:

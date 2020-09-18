@@ -46,6 +46,6 @@ void init_keyboard();
 
 void keyboard_handler(cpu_state_t* stack);
 
-uint8_t read_char();
+byte read_char();
 
 #endif // #ifndef KEYBOARD_H

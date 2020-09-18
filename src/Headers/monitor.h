@@ -5,9 +5,9 @@
 #define VGA_HEIGHT 25
 #define VGA_CHARS (VGA_WIDTH * VGA_HEIGHT)
 
-extern uint16_t cursor;
-extern uint8_t vga_attrib;
-extern uint16_t* vga_buffer;
+extern word cursor;
+extern byte vga_attrib;
+extern word* vga_buffer;
 
 /* Initialize vga */
 void init_vga();
@@ -22,15 +22,15 @@ void vga_update_cursor();
 void vga_scroll();
 
 /* Write a character at cursor position */
-void vga_putc(uint8_t c);
+void vga_putc(byte c);
 
 /* Write a string at cursor position */
-void vga_puts(uint8_t* str);
+void vga_puts(byte* str);
 
 /* Write a 32-bit unsgined integer in hex format at cursor position */
-void vga_puth(duint16_t num);
+void vga_puth(dword num);
 
 /* Copy a buffer to video memory */
-void vga_copy(uint16_t* buffer);
+void vga_copy(word* buffer);
 
 #endif // #ifndef MONITOR_H

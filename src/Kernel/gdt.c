@@ -15,14 +15,14 @@ void init_gdt()
     set_gdt_seg(&gdt->kernel_data, 0, false);
     set_gdt_seg(&gdt->user_code, 3, true);
     set_gdt_seg(&gdt->user_data, 3, false);
-    set_gdt_tss(&gdt->tss_desc, 3, (quint16_t)tss, sizeof(tss_t));
+    set_gdt_tss(&gdt->tss_desc, 3, (qword)tss, sizeof(tss_t));
 
     tss->rsp0 = KERNEL_STACK;
-    load_gdt(sizeof(gdt_t) - 1, (quint16_t)gdt);
+    load_gdt(sizeof(gdt_t) - 1, (qword)gdt);
     load_tss(TSS_ENTRY);
 }
 
-void set_gdt_seg(gdt_seg_desc_t* desc, uint8_t dpl, bool code)
+void set_gdt_seg(gdt_seg_desc_t* desc, byte dpl, bool code)
 {
     desc->p = 1;
     desc->s = 1;
@@ -32,7 +32,7 @@ void set_gdt_seg(gdt_seg_desc_t* desc, uint8_t dpl, bool code)
         desc->l = 1;
 }
 
-void set_gdt_tss(gdt_tss_desc_t* desc, uint8_t dpl, quint16_t base, uint16_t limit)
+void set_gdt_tss(gdt_tss_desc_t* desc, byte dpl, qword base, word limit)
 {
     desc->dpl = dpl;
     desc->p = 1;
@@ -42,4 +42,4 @@ void set_gdt_tss(gdt_tss_desc_t* desc, uint8_t dpl, quint16_t base, uint16_t lim
     desc->base_high = (base >> 24) & 0xFFFFFFFFFF;
 }
 
-void set_kernel_stack(quint16_t rsp) { tss->rsp0 = rsp; }
+void set_kernel_stack(qword rsp) { tss->rsp0 = rsp; }

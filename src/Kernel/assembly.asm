@@ -1,81 +1,81 @@
 section .text
 
 [global memsetb]
-memsetb:                           ; function to set uint8_ts
+memsetb:                           ; function to set bytes
     mov rcx, rdx                   ; init loop counter with arg3
     mov rdx, rdi                   ; backup the pointer
     mov rax, rsi                   ; fill rax with arg2
-    rep stosb                      ; write the uint8_ts
+    rep stosb                      ; write the bytes
     mov rax, rdx                   ; restore pointer
     ret                            ; return
 
 [global memcpyb]
-memcpyb:                           ; funtion to copy uint8_ts
+memcpyb:                           ; funtion to copy bytes
     mov rcx, rdx                   ; init loop counter with arg3
     mov rdx, rdi                   ; backup the pointer
-    rep movsb                      ; copy the uint8_ts
+    rep movsb                      ; copy the bytes
     mov rax, rdx                   ; restore the pointer
     ret                            ; return
 
 [global memsetw]
-memsetw:                           ; function to set uint16_ts
+memsetw:                           ; function to set words
     mov rcx, rdx                   ; init loop counter with arg3
     mov rdx, rdi                   ; backup the pointer
     mov rax, rsi                   ; fill rax with arg2
-    rep stosw                      ; write the uint16_ts
+    rep stosw                      ; write the words
     mov rax, rdx                   ; restore the pointer
     ret                            ; return
 
 [global memcpyw]
-memcpyw:                           ; function to copy uint16_ts
+memcpyw:                           ; function to copy words
     mov rcx, rdx                   ; init loop counter with arg3
     mov rdx, rdi                   ; backup the pointer
-    rep movsw                      ; copy the uint16_ts
+    rep movsw                      ; copy the words
     mov rax, rdx                   ; restore the pointer
     ret                            ; return
 
 [global memsetd]
-memsetd:                           ; function to set duint16_ts
+memsetd:                           ; function to set dwords
     mov rcx, rdx                   ; init loop counter with arg3
     mov rdx, rdi                   ; backup the pointer
     mov rax, rsi                   ; fill rax with arg2
-    rep stosd                      ; write the duint16_ts
+    rep stosd                      ; write the dwords
     mov rax, rdx                   ; restore pointer
     ret                            ; return
 
 [global memcpyd]
-memcpyd:                           ; function to copy duint16_ts
+memcpyd:                           ; function to copy dwords
     mov rcx, rdx                   ; init loop counter with arg3
     mov rdx, rdi                   ; backup the pointer
-    rep movsd                      ; copy the duint16_ts
+    rep movsd                      ; copy the dwords
     mov rax, rdx                   ; restore the pointer
     ret                            ; return
 
 [global memsetq]
-memsetq:                           ; function to set quint16_ts
+memsetq:                           ; function to set qwords
     mov rcx, rdx                   ; init loop counter with arg3
     mov rdx, rdi                   ; backup the pointer
     mov rax, rsi                   ; fill rax with arg2
-    rep stosq                      ; write the quint16_ts
+    rep stosq                      ; write the qwords
     mov rax, rdx                   ; restore pointer
     ret                            ; return
 
 [global memcpyq]
-memcpyq:                           ; function to copy quint16_ts
+memcpyq:                           ; function to copy qwords
     mov rcx, rdx                   ; init loop counter with arg3
     mov rdx, rdi                   ; backup the pointer
-    rep movsq                      ; copy the quint16_ts
+    rep movsq                      ; copy the qwords
     mov rax, rdx                   ; restore the pointer
     ret                            ; return
 
 IDT_INFO:                          ; holds information about the idt
-    .limit:  dw 0                  ; size of idt in uint8_ts
+    .limit:  dw 0                  ; size of idt in bytes
     .base: dq 0                    ; address of idt
 
 [global load_idt]
 load_idt:                          ; function to load the idt
-    mov uint16_t [IDT_INFO.limit], di  ; store the size of the idt
-    mov quint16_t [IDT_INFO.base], rsi ; store the address of the idt
+    mov word [IDT_INFO.limit], di  ; store the size of the idt
+    mov qword [IDT_INFO.base], rsi ; store the address of the idt
     lidt [IDT_INFO]                ; load the idt
     ret                            ; return
 
@@ -85,8 +85,8 @@ GDT_INFO:                          ; holds information about gdt
 
 [global load_gdt]
 load_gdt:                          ; function to load the gdt
-    mov uint16_t [GDT_INFO.limit], di  ; store the size of the gdt
-    mov quint16_t [GDT_INFO.base], rsi ; store the address of the gdt
+    mov word [GDT_INFO.limit], di  ; store the size of the gdt
+    mov qword [GDT_INFO.base], rsi ; store the address of the gdt
     lgdt [GDT_INFO]                ; load the gdt
     ret                            ; return
 
@@ -96,10 +96,10 @@ load_tss:                          ; function to reload the tss
     ret                            ; return
 
 %macro ISR_ERR 1                   ; macro for an interrupt with errorcode
-[global isr%1]                     ; the code generated should be 14 uint8_ts in size
+[global isr%1]                     ; the code generated should be 14 bytes in size
 isr%1:
     cli                            ; clear interrupts
-    nop                            ; padding to 14 uint8_ts
+    nop                            ; padding to 14 bytes
     nop
     push rax                       ; save rax
     mov rax, %1                    ; move the isr number into rax
@@ -107,7 +107,7 @@ isr%1:
 %endmacro
 
 %macro ISR 1                       ; macro for an interrupt without errorcode
-[global isr%1]                     ; the code generated should also be 14 uint8_ts
+[global isr%1]                     ; the code generated should also be 14 bytes
 isr%1:
     cli                            ; clear interrupts
     push 0                         ; push a zero to balance the stack
