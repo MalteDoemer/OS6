@@ -18,7 +18,7 @@ void init_idt()
     outb(0xA1, 0x01); // 8086 mode
 
     outb(0x21, MASTER_IRQS); // Mask all unused master irq's
-    outb(0xA1, SLAVE_IRQS); // Mask all unused slave irq's
+    outb(0xA1, SLAVE_IRQS);  // Mask all unused slave irq's
 
     idt = kmalloc(sizeof(idt_t));
     memsetb(idt, 0, sizeof(idt_t));

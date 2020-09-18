@@ -7,9 +7,7 @@
 #define ALT_OFFSET 180
 #define KEYMAP swiss_keymap
 
-
-enum SCAN_CODES
-{
+enum SCAN_CODES {
     SC_ESCAPE = 0x01,
     SC_BACKSPACE = 0x0E,
     SC_ENTER = 0x1C,

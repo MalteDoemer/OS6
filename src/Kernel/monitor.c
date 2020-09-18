@@ -68,7 +68,10 @@ void vga_clear()
     vga_update_cursor();
 }
 
-void vga_copy(uint16_t* buffer) { memcpyw(vga_buffer, buffer, VGA_CHARS); }
+void vga_copy(uint16_t* buffer)
+{
+    memcpyw(vga_buffer, buffer, VGA_CHARS);
+}
 
 void vga_puth(uint32_t num)
 {

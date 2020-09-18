@@ -3,7 +3,10 @@
 volatile uint8_t keystates[0x80];
 volatile uint8_t scancode;
 
-void init_keyboard() { register_isr(0x21, keyboard_handler); }
+void init_keyboard()
+{
+    register_isr(0x21, keyboard_handler);
+}
 
 #define SHIFT_DOWN (keystates[SC_LEFT_SHIFT] || keystates[SC_RIGHT_SHIFT])
 #define CTRL_DOWN (keystates[SC_LEFT_CTRL])

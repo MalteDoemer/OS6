@@ -42,4 +42,7 @@ void set_gdt_tss(gdt_tss_desc_t* desc, uint8_t dpl, uint64_t base, uint16_t limi
     desc->base_high = (base >> 24) & 0xFFFFFFFFFF;
 }
 
-void set_kernel_stack(uint64_t rsp) { tss->rsp0 = rsp; }
+void set_kernel_stack(uint64_t rsp)
+{
+    tss->rsp0 = rsp;
+}

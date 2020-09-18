@@ -2,7 +2,10 @@
 
 isr_t* isr_handlers;
 
-void register_isr(uint8_t index, isr_t isr) { isr_handlers[index] = isr; }
+void register_isr(uint8_t index, isr_t isr)
+{
+    isr_handlers[index] = isr;
+}
 
 void isr_handler(uint64_t int_num, cpu_state_t* stack)
 {

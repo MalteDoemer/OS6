@@ -8,9 +8,9 @@
 #define PROC_ASLEEP 0
 #define PROC_RUNNING 1
 
-#define PROC_THREAD	0
-#define PROC_PROC	1
-#define PROC_ROOT	2
+#define PROC_THREAD 0
+#define PROC_PROC 1
+#define PROC_ROOT 2
 
 typedef struct process_t {
     page_dir_t* page_dir;
