@@ -19,6 +19,7 @@
 #include "idt.h"
 #include "isr.h"
 #include "paging.h"
+#include "ata.h"
 #include "process.h"
 #include "clock.h"
 #include "keyboard.h"
